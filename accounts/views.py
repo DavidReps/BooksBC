@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .forms import RegistrationForm
 from django.contrib.auth import authenticate, login, logout
 
-
+#edit
 def register(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
