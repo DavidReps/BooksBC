@@ -24,7 +24,7 @@ def register(request):
 
             # redirect to a new URL:
             #this is just to confirm to the client that the form has been sumbited succesfully
-            return HttpResponseRedirect('/clientcreation/')
+            return HttpResponseRedirect('/clientcreation')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -51,7 +51,7 @@ def clientcreation(request):
 
             # redirect to a new URL:
             #this is just to confirm to the client that the form has been sumbited succesfully
-            return HttpResponseRedirect('/clientcreation/')
+            return HttpResponseRedirect('accounts:home')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -59,6 +59,8 @@ def clientcreation(request):
 
     return render(request, 'accounts/clientcreation.html', {'form': form})
 
+def home(request):
+    return render(request, 'accounts/index.html')
 
 
 # def login_user(request):
