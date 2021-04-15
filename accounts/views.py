@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 
@@ -53,8 +53,50 @@ def clientcreation(request):
 
     return render(request, 'accounts/clientcreation.html', {'form': form})
 
+def sellerlisting(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = BookSellerForm(request.POST or None)
+
+        # check whether it's valid:
+        if form.is_valid():
+            user = form.save()
+
+
+            # redirect to a new URL:
+            #this is just to confirm to the client that the form has been sumbited succesfully
+            return HttpResponseRedirect(reverse('accounts:home'))
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = BookSellerForm()
+
+    return render(request, 'accounts/sellerlisting.html', {'form': form})
+
 def home(request):
-    return render(request, 'accounts/index.html')
+
+    allBooks = Book.objects.all()
+
+    context = {
+        'books' :allBooks,
+    }
+
+
+    return render(request, 'accounts/index.html', context)
+
+# def home(request):
+#     query = request.GET.get("title")
+#     allMovies = None
+
+#     if query:
+#         allMovies = Movie.objects.filter(name__icontains=query)
+#     else:
+#         allMovies = Movie.objects.all()
+
+#     context = {
+#         "movies": allMovies,
+#     }
+
+#     return render(request,'main/index.html', context)
 
 
 # def login_user(request):
