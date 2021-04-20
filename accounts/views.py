@@ -73,8 +73,13 @@ def sellerlisting(request):
     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
 def home(request):
+    query = request.GET.get("title")
+    allBooks = None
 
-    allBooks = Book.objects.all()
+    if query:
+        allBooks = Book.objects.filter(title__icontains=query)
+    else:
+        allBooks = Book.objects.all()
 
     context = {
         'books' :allBooks,
