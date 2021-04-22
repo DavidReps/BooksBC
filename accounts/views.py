@@ -4,6 +4,7 @@ from django.urls import reverse
 from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Q
 
 #edit
 def register(request):
@@ -73,20 +74,58 @@ def sellerlisting(request):
     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
 def home(request):
-    query = request.GET.get("title")
-    allBooks = None
-
-    if query:
-        allBooks = Book.objects.filter(title__icontains=query)
+    if request.method == 'GET':
+        query= request.GET.get('q')
+        allBooks = None
+        search_choice = request.GET.get('filter')
+        submitbutton= request.GET.get('submit')
+        if query is not None:
+            if search_choice == "Title":
+                allBooks =  Book.objects.filter(Q(title__icontains=query))
+                context={'books' :allBooks,
+                     'sumbitbutton': submitbutton}
+                return render(request, 'accounts/index.html', context)
+            if search_choice == "Author":
+                allBooks =  Book.objects.filter(Q(author__icontains=query))
+                context={'books' :allBooks,
+                     'sumbitbutton': submitbutton}
+                return render(request, 'accounts/index.html', context)
+            if search_choice == "isbn":
+                allBooks =  Book.objects.filter(Q(isbn__icontains=query))
+                context={'books' :allBooks,
+                     'sumbitbutton': submitbutton}
+                return render(request, 'accounts/index.html', context)
+            if search_choice == "Course":
+                allBooks =  Book.objects.filter(Q(course__icontains=query))
+                context={'books' :allBooks,
+                     'sumbitbutton': submitbutton}
+                return render(request, 'accounts/index.html', context)
+            else:
+                allBooks = Book.objects.all()
+                context = {
+                    'books' :allBooks,
+                }
+                return render(request, 'accounts/index.html', context)
+        else:
+            return render(request, 'accounts/index.html',)
     else:
-        allBooks = Book.objects.all()
+        return render(request, 'accounts/index.html')
+            
 
-    context = {
-        'books' :allBooks,
-    }
+    # query = request.GET.get("title")
+    # allBooks = None
+
+    # if query:
+    #     allBooks = Book.objects.filter(title__icontains=query)
+    # else:
+    #     allBooks = Book.objects.all()
+
+    # context = {
+    #     'books' :allBooks,
+    # }
 
 
-    return render(request, 'accounts/index.html', context)
+    # return render(request, 'accounts/index.html', context)
 
 # def home(request):
 #     query = request.GET.get("title")
