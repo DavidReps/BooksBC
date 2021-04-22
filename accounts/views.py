@@ -88,6 +88,10 @@ def home(request):
 
     return render(request, 'accounts/index.html', context)
 
+def cart(request):
+
+    return render(request, 'accounts/cart.html')
+
 # def home(request):
 #     query = request.GET.get("title")
 #     allMovies = None
