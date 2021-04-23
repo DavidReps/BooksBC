@@ -76,27 +76,27 @@ def sellerlisting(request):
 def home(request):
     if request.method == 'GET':
         query= request.GET.get('q')
-        allBooks = None
+        #allBooks = None
         search_choice = request.GET.get('filter')
         submitbutton= request.GET.get('submit')
         if query is not None:
             if search_choice == "Title":
-                allBooks =  Book.objects.filter(Q(title__icontains=query))
+                allBooks =  Book.objects.filter(Q(title__icontains=query)).order_by('price')
                 context={'books' :allBooks,
                      'sumbitbutton': submitbutton}
                 return render(request, 'accounts/index.html', context)
             if search_choice == "Author":
-                allBooks =  Book.objects.filter(Q(author__icontains=query))
+                allBooks =  Book.objects.filter(Q(author__icontains=query)).order_by('price')
                 context={'books' :allBooks,
                      'sumbitbutton': submitbutton}
                 return render(request, 'accounts/index.html', context)
             if search_choice == "isbn":
-                allBooks =  Book.objects.filter(Q(isbn__icontains=query))
+                allBooks =  Book.objects.filter(Q(isbn__istartswith=query)).order_by('price')
                 context={'books' :allBooks,
                      'sumbitbutton': submitbutton}
                 return render(request, 'accounts/index.html', context)
             if search_choice == "Course":
-                allBooks =  Book.objects.filter(Q(course__icontains=query))
+                allBooks =  Book.objects.filter(Q(course__icontains=query)).order_by('price')
                 context={'books' :allBooks,
                      'sumbitbutton': submitbutton}
                 return render(request, 'accounts/index.html', context)
