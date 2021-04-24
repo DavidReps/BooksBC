@@ -1,6 +1,8 @@
 from django.urls import path
 from accounts import views
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 app_name = "accounts"
@@ -13,4 +15,4 @@ urlpatterns = [
     path('sellerlisting/', views.sellerlisting, name="sellerlisting"),
     # path('login/', views.login_user, name="login"),
     # path('logout/', views.logout_user, name="logout"),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -53,14 +53,64 @@ def clientcreation(request):
 
     return render(request, 'accounts/clientcreation.html', {'form': form})
 
+# def sellerlisting(request):
+#     if request.method == 'POST':
+#         # create a form instance and populate it with data from the request:
+#         form = BookSellerForm(request.POST or None)
+
+#         # check whether it's valid:
+#         if form.is_valid():
+#             print("VALID")
+#             # photo = request.FILES['photo']
+#             # photo.save()
+
+#             user = form.save()
+
+
+#             # redirect to a new URL:
+#             #this is just to confirm to the client that the form has been submitted succesfully
+#             return HttpResponseRedirect(reverse('accounts:home'))
+#         else:
+#             print("INVALID")
+
+#     # if a GET (or any other method) we'll create a blank form
+#     else:
+
+#         form = BookSellerForm()
+
+#     return render(request, 'accounts/sellerlisting.html', {'form': form})
+
 def sellerlisting(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = BookSellerForm(request.POST or None)
+        form = BookSellerForm(request.POST, request.FILES or None)
 
         # check whether it's valid:
         if form.is_valid():
-            user = form.save()
+            #fields = ('title', 'author', 'edition', 'condition', 'course', 'image', 'price', 'isbn')
+            title = form.cleaned_data.get('title')
+            author = form.cleaned_data.get('author')
+            edition = form.cleaned_data.get('edition')
+            condition = form.cleaned_data.get('condition')
+            course = form.cleaned_data.get('course')
+            image  = request.FILES['image']
+            price = form.cleaned_data.get('price')
+            isbn = form.cleaned_data.get('isbn')
+
+
+            obj = Book.objects.create(
+                                 title = title, 
+                                 author = author,
+                                 edition = edition,
+                                 condition = condition,
+                                 course = course,
+                                 image = image,
+                                 price = price,
+                                 isbn = isbn,
+            )
+            print(image)
+            print("image above")
+            obj.save()
 
 
             # redirect to a new URL:
@@ -71,6 +121,7 @@ def sellerlisting(request):
         form = BookSellerForm()
 
     return render(request, 'accounts/sellerlisting.html', {'form': form})
+
 
 def home(request):
     query = request.GET.get("title")

@@ -20,5 +20,6 @@ class Book(models.Model):
     edition = models.CharField(max_length=40)
     condition = models.CharField(max_length=40)
     course = models.CharField(max_length=40)
+    image = models.ImageField(upload_to = 'images/', default = 'default.png')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     isbn = models.IntegerField()
