@@ -100,9 +100,24 @@
             </ul>
           </div>
       </nav>
-      <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'accounts:home' %}">
+      <!-- <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'accounts:home' %}">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="title">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form> -->
+      <form class="text-center" method="GET" action="{% url 'accounts:home' %}" value="{{request.GET.q}}">
+        <div style="display: inline-block; ">
+
+          <select name="filter" class="form-control">
+            <option value="Title">Title</option>
+            <option value="Author">Author</option>
+            <option value="ISBN">ISBN</option>
+            <option value="Course">Course</option>
+          </select>
+        </div>
+        <div style="display: inline-block;">
+          <input type="text" name="q" value="{{request.GET.q}}" placeholder="Search" />
+          <input type="submit" name="submit" value="Search" />
+        </div>
       </form>
 
       {% block content %}

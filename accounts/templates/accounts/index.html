@@ -12,8 +12,6 @@
     <div class="row">
       
       {% for book in books %}
-      
-      
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
@@ -28,11 +26,31 @@
               <h3 class="text-center">
                 {{book.title}}
               </h3>
-              <i class="text-center">
+              <!-- <i class="text-center"> -->
+              {{book.edition}} Edition
+              </br>
+              By: {{book.author}}
+              </br>
+              Course: {{book.course}}
+              </br>
+              Condition: {{book.condition}}
+              </br>
+              ISBN-13: {{book.isbn}}
+              </br>
+              <h5>
                 ${{book.price}}
-              </i>
+              </h5>
+              <!-- </i> -->
             </div>
           </div>
+          <a href="test.com">
+            <div class="card-footer text-center">
+                <button class="btn btn-primary btn-sm"
+                        id="center" style="color:white">
+                    Add to Cart
+                </button>
+            </div>
+          </a>
         </div>
       </div>
       {% endfor %}
