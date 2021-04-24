@@ -23,4 +23,4 @@ class ClientCreationForm(forms.ModelForm):
 class BookSellerForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ('title', 'author', 'edition', 'condition', 'course', 'price', 'isbn')
+        fields = ('title', 'author', 'edition', 'condition', 'course', 'image', 'price', 'isbn')

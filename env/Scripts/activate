@@ -8,7 +8,7 @@ if [ "${BASH_SOURCE-}" = "$0" ]; then
 fi
 
 deactivate () {
-    unset -f pydoc >/dev/null 2>&1 || true
+    unset -f pydoc >/dev/null 2>&1
 
     # reset old environment variables
     # ! [ -z ${VAR+_} ] returns true if VAR is declared at all
@@ -46,10 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='C:\Users\kathr\OneDrive\Documents\Senior Year\BCBooks\4-16\BooksBC\env'
-if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
-    VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
-fi
+VIRTUAL_ENV='C:\Users\acharyma\Desktop\RiskAverse\Software Engineering\4_22\BooksBC\env'
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

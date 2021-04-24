@@ -101,7 +101,7 @@
                     </label>
                     </div>
             </div>
-            <form method="POST">
+            <form method="POST" enctype='multipart/form-data'>
                 {% csrf_token %}
                 <label class="form-label" for="formControl">Title</label>
                 <div class="input-group">
@@ -152,6 +152,15 @@
                 <div class="input-group">
                     <div>
                         {{ form.course }}
+                    </div>
+                    
+                </div>
+                <br>
+
+                <label class="form-label" for="formControl">Image</label>
+                <div class="input-group">
+                    <div>
+                        {{ form.image }}
                     </div>
                     
                 </div>

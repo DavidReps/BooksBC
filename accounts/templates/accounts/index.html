@@ -6,31 +6,25 @@
 
 <br>
 
-<!-- <input id="this_search" type="search" name="books" onkeyup="handleBooks()">
-
-<script>
-  function handleBooks(){
-    document.getElementById('this_search').addEventListener('input', (event)=>{
-      const keyword = event.target.value;
-      console.log(keyword)
-      // const filtered = data.news.filter(m => {
-      // return m.content.toLowerCase().includes(keyword.toLowerCase()) || m.date.toLowerCase().includes(keyword.toLowerCase());
-      // }
-    // );
-    // document.querySelector('.news_items').innerHTML = renderNewsItems(filtered);
-    });
-  }
-</script> -->
 
 <div class="container">
   <div class="card" id ="backdrop">
     <div class="row">
       
       {% for book in books %}
+      
+      
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
             <div class="text-center">
+              <div class="image-slot">
+
+              </div>
+
+              <img src="/media/{{ book.image }}" width="75%">
+              <!-- IMAGESTUFF - loading -->
+              
               <h3 class="text-center">
                 {{book.title}}
               </h3>
