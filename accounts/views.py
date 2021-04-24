@@ -158,6 +158,11 @@ def home(request):
                 }
                 return render(request, 'accounts/index.html', context)
         else:
+            allBooks = Book.objects.all()
+            context = {
+                'books' :allBooks,
+            }
+            return render(request, 'accounts/index.html', context)
             return render(request, 'accounts/index.html',)
     else:
         return render(request, 'accounts/index.html')
