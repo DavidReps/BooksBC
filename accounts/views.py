@@ -94,6 +94,7 @@ def sellerlisting(request):
             condition = form.cleaned_data.get('condition')
             course = form.cleaned_data.get('course')
             image  = request.FILES['image']
+            #IMAGESTUFF - line above
             price = form.cleaned_data.get('price')
             isbn = form.cleaned_data.get('isbn')
 
@@ -108,8 +109,6 @@ def sellerlisting(request):
                                  price = price,
                                  isbn = isbn,
             )
-            print(image)
-            print("image above")
             obj.save()
 
 

@@ -26,3 +26,5 @@ urlpatterns = [
     path('', include('accounts.urls')),
     # path('clientcreation/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#IMAGESTUFF - line above
+

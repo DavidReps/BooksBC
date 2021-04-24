@@ -10,8 +10,6 @@
 <div class="container">
   <div class="card" id ="backdrop">
     <div class="row">
-
-      
       
       {% for book in books %}
       
@@ -25,6 +23,7 @@
               </div>
 
               <img src="/media/{{ book.image }}" width="75%">
+              <!-- IMAGESTUFF - loading -->
               
               <h3 class="text-center">
                 {{book.title}}
