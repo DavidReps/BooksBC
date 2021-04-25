@@ -91,6 +91,10 @@ def cart(request):
 
     return render(request, 'accounts/cart.html')
 
+def profile(request):
+
+    return render(request, 'accounts/profile.html')
+
 def sellerlisting(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
