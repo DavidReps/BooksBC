@@ -77,13 +77,13 @@
         </div>
         <div class="container">
             <div class="mt-1 justify-content-center" id="signup">
-                <h4 class="text-md-left text-center">Registration Information</h4>
+                <!-- <h4 class="text-md-left text-center">Registration Information</h4>
                 <form action="/register/" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="submit" value="Submit">
-                </form>
-                <form method="post">
+                </form> -->
+                <form action="/register/" method="post">
                     {% csrf_token %}
                     <h4 class="text-md-left text-center">Registration Information</h4>
                     
@@ -155,6 +155,17 @@
                     </div>
                 </form>
             </div>
+        </div>
+
+        <br>
+        <div>
+            {% if messages %}
+            <ul class="messages" style="color: red;">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </section>
 
