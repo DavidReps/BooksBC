@@ -87,6 +87,10 @@ def clientcreation(request):
 
 #     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
+def cart(request):
+
+    return render(request, 'accounts/cart.html')
+
 def sellerlisting(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
