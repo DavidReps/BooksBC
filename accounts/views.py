@@ -55,6 +55,16 @@ def clientcreation(request):
 
     return render(request, 'accounts/clientcreation.html', {'form': form})
 
+def chat(request):
+    return render(request, 'accounts/chat.html')
+
+def room(request, room_name):
+
+    return render(request, 'accounts/room.html', {
+        'room_name': room_name
+    })
+
+
 # def sellerlisting(request):
 #     if request.method == 'POST':
 #         # create a form instance and populate it with data from the request:
