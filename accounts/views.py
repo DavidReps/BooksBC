@@ -5,7 +5,7 @@ from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
-
+from django.contrib import messages
 
 #edit
 def register(request):
@@ -16,6 +16,11 @@ def register(request):
 
         # check whether it's valid:
         if form.is_valid():
+            email = request.POST.get('username')
+            if "bc.edu" not in email:
+                messages.error(request, 'ERROR: Please use a valid BC email address')
+                return render(request, 'accounts/register.html', {'form': form})
+            
             user = form.save()
 
             # process the data in form.cleaned_data as required
