@@ -1,13 +1,34 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, LoginForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 
 #edit
+def log_in(request):
+    if request.method == 'POST':
+
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+            username = request.POST.get('username')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/buying')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'accounts/login.html', {'form': form})
+
+def log_out(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
+
 def register(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -17,6 +38,7 @@ def register(request):
         # check whether it's valid:
         if form.is_valid():
             email = request.POST.get('username')
+
             if "bc.edu" not in email:
                 messages.error(request, 'ERROR: Please use a valid BC email address')
                 return render(request, 'accounts/register.html', {'form': form})
@@ -128,8 +150,7 @@ def sellerlisting(request):
 
     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
-
-def home(request):
+def buying(request):
     if request.method == 'GET':
         query= request.GET.get('q')
         #allBooks = None
@@ -171,6 +192,11 @@ def home(request):
             return render(request, 'accounts/index.html',)
     else:
         return render(request, 'accounts/index.html')
+
+def home(request):
+    return render(request, 'accounts/base.html')
+
+
 
 # def home(request):
 #     query = request.GET.get("title")
