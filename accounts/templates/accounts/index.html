@@ -17,7 +17,12 @@
           <div class="card-body">
             <div class="text-center">
               {% load static %}
-              <img src="{% static '/flag.png' %}" width="15%">
+              <div style="position: absolute; right: 5%;">
+                <a href="test">
+                  <img src="{% static '/flag.png' %}" width="20px">
+                </a>
+              </div>
+              
               <div class="image-slot">
 
               </div>
@@ -28,7 +33,6 @@
               <h3 class="text-center">
                 {{book.title}}
               </h3>
-              <!-- <i class="text-center"> -->
               {{book.edition}} Edition
               </br>
               By: {{book.author}}
@@ -42,7 +46,6 @@
               <h5>
                 ${{book.price}}
               </h5>
-              <!-- </i> -->
             </div>
           </div>
           <a href="test.com">
