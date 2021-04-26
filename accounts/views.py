@@ -5,6 +5,9 @@ from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
+from django.utils.safestring import mark_safe
+import json
+from django.contrib.auth.decorators import login_required
 
 
 #edit
@@ -58,10 +61,11 @@ def clientcreation(request):
 def chat(request):
     return render(request, 'accounts/chat.html')
 
+@login_required
 def room(request, room_name):
-
     return render(request, 'accounts/room.html', {
-        'room_name': room_name
+        'room_name': room_name,
+        'username': mark_safe(json.dumps(request.user.username)),
     })
 
 
