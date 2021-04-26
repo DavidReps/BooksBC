@@ -15,7 +15,9 @@ urlpatterns = [
     path('sellerlisting/', views.sellerlisting, name="sellerlisting"),
     path('cart/', views.cart, name="cart"),
     path('profile/', views.profile, name="profile"),
-    # path('login/', views.login_user, name="login"),
-    # path('logout/', views.logout_user, name="logout"),
+    path('buying/', views.buying, name="buying"),
+    path('login/', views.log_in, name="login"),
+    path('logout/', views.log_out, name="logout"),
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #IMAGESTUFF - line above

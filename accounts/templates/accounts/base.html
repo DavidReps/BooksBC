@@ -66,6 +66,7 @@
                     Buyer Services
                   </a>
                   <div class="dropdown-menu" aria-labelledby="buyerdropdown">
+                    <a class="dropdown-item" href="./buying">Search for Books</a>
                     <a class="dropdown-item" href="#">Wishlist</a>
                   </div>
               </li>
@@ -92,7 +93,7 @@
                     <a class="dropdown-item" href="./profile">Profile</a>
                     <a class="dropdown-item" href="messaging.html">Messages</a>
                     <a class="dropdown-item" href="#">Wishlist</a>
-                    <a class="dropdown-item" href="#">Sign Out</a>
+                    <a class="dropdown-item" href="./logout">Sign Out</a>
                   </div>
             
               </li>
@@ -104,21 +105,6 @@
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="title">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form> -->
-      <form class="text-center" method="GET" action="{% url 'accounts:home' %}" value="{{request.GET.q}}">
-        <div style="display: inline-block; ">
-
-          <select name="filter" class="form-control">
-            <option value="Title">Title</option>
-            <option value="Author">Author</option>
-            <option value="ISBN">ISBN</option>
-            <option value="Course">Course</option>
-          </select>
-        </div>
-        <div style="display: inline-block;">
-          <input type="text" name="q" value="{{request.GET.q}}" placeholder="Search" />
-          <input type="submit" name="submit" value="Search" />
-        </div>
-      </form>
 
       {% block content %}
 
@@ -176,7 +162,7 @@
       </div>
 
       <!-- Log in button-->
-      <a href="test.com">
+      <a href="./login">
         <div id="u6" class="ax_default button">
           <div id="u6_div" class=""></div>
           <div id="u6_text" class="text ">
@@ -212,7 +198,7 @@
       </div>
 
       <!-- buying button-->
-      <a href="test.com">
+      <a href="./buying">
         <div id="u10" class="ax_default primary_button">
             <div id="u10_div" class=""></div>
             <div id="u10_text" class="text ">

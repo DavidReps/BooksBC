@@ -6,6 +6,7 @@ from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 
 #edit
 def register(request):
@@ -59,6 +60,26 @@ def clientcreation(request):
         form = ClientCreationForm()
 
     return render(request, 'accounts/clientcreation.html', {'form': form})
+
+def log_in(request):
+    if request.method == 'POST':
+
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+            username = request.POST.get('username')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/buying')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'accounts/login.html', {'form': form})
+
+def log_out(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
 
 # def sellerlisting(request):
 #     if request.method == 'POST':
@@ -136,8 +157,7 @@ def sellerlisting(request):
 
     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
-
-def home(request):
+def buying(request):
     if request.method == 'GET':
         query= request.GET.get('q')
         #allBooks = None
@@ -179,6 +199,9 @@ def home(request):
             return render(request, 'accounts/index.html',)
     else:
         return render(request, 'accounts/index.html')
+
+def home(request):
+    return render(request, 'accounts/base.html')
 
 # def home(request):
 #     query = request.GET.get("title")
