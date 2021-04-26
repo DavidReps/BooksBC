@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, LoginForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
