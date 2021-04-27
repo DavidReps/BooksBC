@@ -6,7 +6,12 @@ from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib import messages
+from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+import json
+
+
 
 #edit
 def register(request):
@@ -80,6 +85,17 @@ def log_in(request):
 def log_out(request):
     logout(request)
     return HttpResponseRedirect('/login')
+
+
+def chat(request):
+    return render(request, 'accounts/chat.html')
+
+@login_required
+def room(request, room_name):
+    return render(request, 'accounts/room.html', {
+        'room_name': room_name,
+        'username': mark_safe(json.dumps(request.user.username)),
+    })
 
 # def sellerlisting(request):
 #     if request.method == 'POST':
