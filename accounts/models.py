@@ -24,6 +24,7 @@ class Book(models.Model):
     image = models.ImageField(upload_to = 'images/', default = 'default.png')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     isbn = models.IntegerField()
+    createdBy = models.CharField(max_length=40)
 
 
 User = get_user_model()

@@ -135,7 +135,7 @@ def profile(request):
 def sellerlisting(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = BookSellerForm(request.POST, request.FILES or None)
+        form = BookSellerForm(request.POST, request.FILES or None, initial = {'createdBy': "none"})
 
         # check whether it's valid:
         if form.is_valid():
@@ -149,7 +149,14 @@ def sellerlisting(request):
             #IMAGESTUFF - line above
             price = form.cleaned_data.get('price')
             isbn = form.cleaned_data.get('isbn')
+            
 
+            current_user = request.user
+            print("HERE HERE")
+            print(current_user.username)
+            print("HERE HERE")
+            print(type(current_user.username))
+            createdBy = current_user.username
 
             obj = Book.objects.create(
                                  title = title, 
@@ -160,6 +167,7 @@ def sellerlisting(request):
                                  image = image,
                                  price = price,
                                  isbn = isbn,
+                                 createdBy = createdBy,
             )
             obj.save()
 

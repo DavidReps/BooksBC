@@ -23,4 +23,8 @@ class ClientCreationForm(forms.ModelForm):
 class BookSellerForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ('title', 'author', 'edition', 'condition', 'course', 'image', 'price', 'isbn')
+        fields = ('title', 'author', 'edition', 'condition', 'course', 'image', 'price', 'isbn', 'createdBy')
+
+    def __init__(self, *args, **kwargs): 
+        super(BookSellerForm, self).__init__(*args, **kwargs)                       
+        self.fields['createdBy'].disabled = True
