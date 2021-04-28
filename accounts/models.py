@@ -26,6 +26,10 @@ class Book(models.Model):
     isbn = models.IntegerField()
     createdBy = models.CharField(max_length=40)
 
+class Cart(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.CharField(max_length=40)
+
 
 User = get_user_model()
 

@@ -48,7 +48,7 @@
               </h5>
             </div>
           </div>
-          <a href="test.com">
+          <a  href="{% url 'accounts:add_to_cart' %}?book_isbn={{ book.isbn }}">
             <div class="card-footer text-center">
                 <button class="btn btn-primary btn-sm"
                         id="center" style="color:white">

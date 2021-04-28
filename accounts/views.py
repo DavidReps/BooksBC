@@ -97,6 +97,20 @@ def room(request, room_name):
         'username': mark_safe(json.dumps(request.user.username)),
     })
 
+@login_required
+def add_to_cart(request):
+    key_a = request.GET['book_isbn']
+    book = Book.objects.get(isbn=key_a)
+    current_user = request.user
+    addedBy = current_user.username
+    print("HEY HEY HEY")
+    print(book)
+    print(addedBy)
+    print("HEY HEY HEY")
+
+
+    return HttpResponseRedirect(reverse('accounts:home'))
+
 # def sellerlisting(request):
 #     if request.method == 'POST':
 #         # create a form instance and populate it with data from the request:
@@ -152,10 +166,6 @@ def sellerlisting(request):
             
 
             current_user = request.user
-            print("HERE HERE")
-            print(current_user.username)
-            print("HERE HERE")
-            print(type(current_user.username))
             createdBy = current_user.username
 
             obj = Book.objects.create(
