@@ -51,7 +51,7 @@
 
     <!-- Navbar header -->
     <nav class="navbar navbar-expand-lg navbar-light text-white" style="background-color: #8a100b;">
-          <a href="#" class="navbar-brand">
+          <a href="/" class="navbar-brand">
 
             <img src="addons/bb.png" style="width: 60px;">
 
@@ -67,7 +67,11 @@
                   </a>
                   <div class="dropdown-menu" aria-labelledby="buyerdropdown">
                     <a class="dropdown-item" href="./buying">Search for Books</a>
-                    <a class="dropdown-item" href="./cart">My Cart</a>
+                    {% if user.is_authenticated %}
+                      <a class="dropdown-item" href="./cart">My Cart</a>
+                    {% else %}
+                      <a class="dropdown-item" href="./login">My Cart</a>
+                    {% endif %}
                   </div>
               </li>
               <li class="nav-item dropdown">
@@ -75,14 +79,22 @@
                     Seller Services
                   </a>
                   <div class="dropdown-menu" aria-labelledby="admindropdown">
-                    <a class="dropdown-item" href="./sellerlisting">Sell Books</a>
+                    {% if user.is_authenticated %}
+                      <a class="dropdown-item" href="./sellerlisting">Sell Books</a>
+                    {% else %}
+                      <a class="dropdown-item" href="./login">Sell Books</a>
+                    {% endif %}
                   </div>
               </li>
             </ul>
             <ul class="navbar-nav">
 
               <li class="nav-item">
-                <a class="nav-link text-white" href="./cart"><i class="fa fa-shopping-cart"></i></a>
+                {% if user.is_authenticated %}
+                  <a class="nav-link text-white" href="./cart"><i class="fa fa-shopping-cart"></i></a>
+                {% else %}
+                  <a class="nav-link text-white" href="./login"><i class="fa fa-shopping-cart"></i></a>
+                {% endif %}
               </li>
 
               <li class="nav-item text-white dropdown">
@@ -90,10 +102,15 @@
                     <i class="fa fa-user"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="profiledrop">
-                    <a class="dropdown-item" href="./profile">Profile</a>
-                    <a class="dropdown-item" href="./chat">Messages</a>
-                    <a class="dropdown-item" href="#">Wishlist</a>
-                    <a class="dropdown-item" href="./logout">Sign Out</a>
+                    {% if user.is_authenticated %}
+                      <a class="dropdown-item" href="./profile">Profile</a>
+                      <a class="dropdown-item" href="./chat">Messages</a>
+                      <a class="dropdown-item" href="./logout">Sign Out</a>
+                    {% else %}
+                      <a class="dropdown-item" href="./login">Log In</a>
+                      <a class="dropdown-item" href="./login">Profile</a>
+                      <a class="dropdown-item" href="./login">Messages</a>
+                    {% endif %}
                   </div>
             
               </li>
@@ -161,7 +178,19 @@
         </div>
       </div>
 
-      <!-- Log in button-->
+     
+      {% if user.is_authenticated %}
+       <!-- Log in button-->
+        <a href="./logout">
+          <div id="u6" class="ax_default button">
+            <div id="u6_div" class=""></div>
+            <div id="u6_text" class="text ">
+              <p><center>Log In</center></p>
+            </div>
+          </div>
+        </a>
+
+      {% else %}
       <a href="./login">
         <div id="u6" class="ax_default button">
           <div id="u6_div" class=""></div>
@@ -171,7 +200,8 @@
         </div>
       </a>
 
-      <!-- Create account button-->
+      {% endif %}
+
       <a href="./register">
         <div id="u7" class="ax_default button">
           <div id="u7_div" class=""></div>
