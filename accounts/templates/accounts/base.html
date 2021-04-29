@@ -68,7 +68,11 @@
                   </a>
                   <div class="dropdown-menu" aria-labelledby="buyerdropdown">
                     <a class="dropdown-item" href="./buying">Search for Books</a>
-                    <a class="dropdown-item" href="./cart">My Cart</a>
+                    {% if user.is_authenticated %}
+                      <a class="dropdown-item" href="./cart">My Cart</a>
+                    {% else %}
+                      <a class="dropdown-item" href="./login">My Cart</a>
+                    {% endif %}
                   </div>
               </li>
               <li class="nav-item dropdown">
@@ -76,14 +80,22 @@
                     Seller Services
                   </a>
                   <div class="dropdown-menu" aria-labelledby="admindropdown">
-                    <a class="dropdown-item" href="./sellerlisting">Sell Books</a>
+                    {% if user.is_authenticated %}
+                      <a class="dropdown-item" href="./sellerlisting">Sell Books</a>
+                    {% else %}
+                      <a class="dropdown-item" href="./login">Sell Books</a>
+                    {% endif %}
                   </div>
               </li>
             </ul>
             <ul class="navbar-nav">
 
               <li class="nav-item">
+                {% if user.is_authenticated %}
                 <a class="nav-link text-white" href="./cart"><i class="fa fa-shopping-cart"></i></a>
+                {% else %}
+                  <a class="nav-link text-white" href="./login"><i class="fa fa-shopping-cart"></i></a>
+                {% endif %}
               </li>
 
               <li class="nav-item text-white dropdown">
@@ -91,9 +103,15 @@
                     <i class="fa fa-user"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="profiledrop">
-                    <a class="dropdown-item" href="./profile">Profile</a>
-                    <a class="dropdown-item" href="/chat">Messages</a>
-                    <a class="dropdown-item" href="./logout">Sign Out</a>
+                    {% if user.is_authenticated %}
+                      <a class="dropdown-item" href="./profile">Profile</a>
+                      <a class="dropdown-item" href="./chat">Messages</a>
+                      <a class="dropdown-item" href="./logout">Sign Out</a>
+                    {% else %}
+                      <a class="dropdown-item" href="./login">Log In</a>
+                      <a class="dropdown-item" href="./login">Profile</a>
+                      <a class="dropdown-item" href="./login">Messages</a>
+                    {% endif %}
                   </div>
             
               </li>
@@ -124,11 +142,16 @@
           <img class="image-slot" src="{% static '/books.jpg' %}" style='width: 200px'>
 
         </div>
-
-        <div class="col-md-6">
-          <p>
-            If you already have an accouunt please <a href="./login">Log in</a>
-          </p>
+        {% if user.is_authenticated %}
+          <div class="col-md-6">
+            <p>
+              If you already have an accouunt please <a href="./logout">Log in</a>
+            </p>
+          {% else %}
+            <p>
+              If you already have an accouunt please <a href="./login">Log in</a>
+            </p>
+          {% endif %}
           <img class="image-slot" src="{% static '/reading.jpg' %}" style='width: 200px'>
 
         </div>
@@ -136,23 +159,42 @@
       </div>
 
       <div class="row">
+        {% if user.is_authenticated %}
+          <div class="col-md-6">
+            <p>
+              To investigate what books are for sale, explore our repetoir of books<a href="./buying"> Here</a>
+            </p>
+            <img class="image-slot" src="{% static '/coffee.jpg' %}" style='width: 200px'>
 
-        <div class="col-md-6">
-          <p>
-            To investigate what books are for sale, explore our repetoir of books<a href="./buying"> Here</a>
-          </p>
-          <img class="image-slot" src="{% static '/coffee.jpg' %}" style='width: 200px'>
+          </div>
+        {% else %}
+          <div class="col-md-6">
+            <p>
+              To investigate what books are for sale, explore our repetoir of books<a href="./login"> Here</a>
+            </p>
+            <img class="image-slot" src="{% static '/coffee.jpg' %}" style='width: 200px'>
 
-        </div>
+          </div>
+        {% endif %}
         <br>
-        <div class="col-md-6">
-          <p>
-            If you would like to list you book for sale. Please complete the seller listing form <a href="./sellerlisting">Here</a>
-          </p>
-          <img class="image-slot" src="{% static '/weezy.jpg' %}" style='width: 200px'>
 
-        </div>
+        {% if user.is_authenticated %}
+          <div class="col-md-6">
+            <p>
+              If you would like to list you book for sale. Please complete the seller listing form <a href="./sellerlisting">Here</a>
+            </p>
+            <img class="image-slot" src="{% static '/weezy.jpg' %}" style='width: 200px'>
 
+          </div>
+        {% else %}
+          <div class="col-md-6">
+            <p>
+              If you would like to list you book for sale. Please complete the seller listing form <a href="./login">Here</a>
+            </p>
+            <img class="image-slot" src="{% static '/weezy.jpg' %}" style='width: 200px'>
+
+          </div>
+        {% endif %}
       </div>
 
     </div>
