@@ -34,10 +34,11 @@
                   Buyer Services
                 </a>
                 <div class="dropdown-menu" aria-labelledby="buyerdropdown">
-                  <a class="dropdown-item" href="../buying">Search for Books</a>
                   {% if user.is_authenticated %}
+                    <a class="dropdown-item" href="../buying">Search for Books</a>
                     <a class="dropdown-item" href="../cart">My Cart</a>
                   {% else %}
+                    <a class="dropdown-item" href="../login">Search for Books</a>
                     <a class="dropdown-item" href="../login">My Cart</a>
                   {% endif %}
                 </div>
