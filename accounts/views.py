@@ -23,6 +23,8 @@ def register(request):
         # check whether it's valid:
         if form.is_valid():
             email = request.POST.get('username')
+
+            #check if bc email is being used
             if "bc.edu" not in email:
                 messages.error(request, 'ERROR: Please use a valid BC email address')
                 return render(request, 'accounts/register.html', {'form': form})
@@ -40,6 +42,9 @@ def register(request):
             # redirect to a new URL:
             #this is just to confirm to the client that the form has been sumbited succesfully
             return HttpResponseRedirect('/clientcreation')
+        else:
+            messages.error(request, "ERROR: Please make sure your passwords match")
+
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -54,12 +59,27 @@ def clientcreation(request):
 
         # check whether it's valid:
         if form.is_valid():
+            email = request.POST.get('email')
+
+            #check if bc email is being used
+            if "bc.edu" not in email:
+                messages.error(request, 'ERROR: Please use a valid BC email address')
+                return render(request, 'accounts/clientcreation.html', {'form': form})
+
+            #check if passwords match
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
+            if password1 != password2:
+                messages.error(request, 'ERROR: Make sure passwords match')
+                return render(request, 'accounts/clientcreation.html', {'form': form})
+
             user = form.save()
 
 
             # redirect to a new URL:
             #this is just to confirm to the client that the form has been sumbited succesfully
             return HttpResponseRedirect(reverse('accounts:home'))
+
     # if a GET (or any other method) we'll create a blank form
     else:
         form = ClientCreationForm()
@@ -67,16 +87,23 @@ def clientcreation(request):
     return render(request, 'accounts/clientcreation.html', {'form': form})
 
 def log_in(request):
+     # if this is a POST request we need to process the form data
     if request.method == 'POST':
 
+        # create a form instance and populate it with data from the request:
         form = AuthenticationForm(data=request.POST)
 
+        # check whether it's valid
         if form.is_valid():
             username = request.POST.get('username')
             password = form.cleaned_data.get('password')
 
             user = authenticate(username=username, password=password)
+
+            #log the user in to the system
             login(request, user)
+
+            # redirect to buying url to show success:
             return HttpResponseRedirect('/buying')
     else:
         form = AuthenticationForm()
@@ -197,37 +224,50 @@ def sellerlisting(request):
 def buying(request):
     if request.method == 'GET':
         query= request.GET.get('q')
-        #allBooks = None
-        search_choice = request.GET.get('filter')
-        submitbutton= request.GET.get('submit')
+        
+        #create filter for search bar
+        filter_selection = request.GET.get('filter')
+        searchbutton= request.GET.get('submit')
         if query is not None:
-            if search_choice == "Title":
+            
+            #filter options of Title, Author, ISBN, and Course
+            if filter_selection == "Title":
+                #filter by title and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(title__icontains=query)).order_by('price')
                 context={'books' :allBooks,
-                     'sumbitbutton': submitbutton}
+                     'sumbitbutton': searchbutton}
                 return render(request, 'accounts/index.html', context)
-            if search_choice == "Author":
+            
+            if filter_selection == "Author":
+                #filter by author and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(author__icontains=query)).order_by('price')
                 context={'books' :allBooks,
-                     'sumbitbutton': submitbutton}
+                     'sumbitbutton': searchbutton}
                 return render(request, 'accounts/index.html', context)
-            if search_choice == "isbn":
+            
+            if filter_selection == "isbn":
+                #filter by ISBN and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(isbn__istartswith=query)).order_by('price')
                 context={'books' :allBooks,
-                     'sumbitbutton': submitbutton}
+                     'sumbitbutton': searchbutton}
                 return render(request, 'accounts/index.html', context)
-            if search_choice == "Course":
+            
+            if filter_selection == "Course":
+                #filter by Course and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(course__icontains=query)).order_by('price')
                 context={'books' :allBooks,
-                     'sumbitbutton': submitbutton}
+                     'sumbitbutton': searchbutton}
                 return render(request, 'accounts/index.html', context)
+            
             else:
+                #show all books
                 allBooks = Book.objects.all()
                 context = {
                     'books' :allBooks,
                 }
                 return render(request, 'accounts/index.html', context)
         else:
+            #show all books
             allBooks = Book.objects.all()
             context = {
                 'books' :allBooks,
