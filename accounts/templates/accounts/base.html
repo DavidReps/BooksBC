@@ -66,10 +66,11 @@
                     Buyer Services
                   </a>
                   <div class="dropdown-menu" aria-labelledby="buyerdropdown">
-                    <a class="dropdown-item" href="./buying">Search for Books</a>
                     {% if user.is_authenticated %}
+                      <a class="dropdown-item" href="./buying">Search for Books</a>
                       <a class="dropdown-item" href="./cart">My Cart</a>
                     {% else %}
+                      <a class="dropdown-item" href="./login">Search for Books</a>
                       <a class="dropdown-item" href="./login">My Cart</a>
                     {% endif %}
                   </div>
@@ -227,26 +228,49 @@
         </div>
       </div>
 
-      <!-- buying button-->
-      <a href="./buying">
-        <div id="u10" class="ax_default primary_button">
-            <div id="u10_div" class=""></div>
-            <div id="u10_text" class="text ">
-              <p><center>Buying</center></p>
-            </div>
-        </div>
-      </a>
-
-      <!-- selling button-->
-      <a href="./sellerlisting">
-        <div id="u11" class="ax_default primary_button">
-          <div id="u11_div" class=""></div>
-          <div id="u11_text" class="text ">
-            <p><center>Selling</center></p>
+      {% if user.is_authenticated %}
+        <!-- buying button-->
+        <a href="./buying">
+          <div id="u10" class="ax_default primary_button">
+              <div id="u10_div" class=""></div>
+              <div id="u10_text" class="text ">
+                <p><center>Buying</center></p>
+              </div>
           </div>
-        </div>
-      </a>
+        </a>
 
+        <!-- selling button-->
+        <a href="./sellerlisting">
+          <div id="u11" class="ax_default primary_button">
+            <div id="u11_div" class=""></div>
+            <div id="u11_text" class="text ">
+              <p><center>Selling</center></p>
+            </div>
+          </div>
+        </a>
+      {% else %} 
+         <!-- buying button-->
+         <a href="./login">
+          <div id="u10" class="ax_default primary_button">
+              <div id="u10_div" class=""></div>
+              <div id="u10_text" class="text ">
+                <p><center>Buying</center></p>
+              </div>
+          </div>
+        </a>
+
+        <!-- selling button-->
+        <a href="./login">
+          <div id="u11" class="ax_default primary_button">
+            <div id="u11_div" class=""></div>
+            <div id="u11_text" class="text ">
+              <p><center>Selling</center></p>
+            </div>
+          </div>
+        </a>
+      
+      {% endif %}
+      
       <!-- info text right side -->
       <div id="u12" class="ax_default heading_3">
         <div id="u12_div" class=""></div>
