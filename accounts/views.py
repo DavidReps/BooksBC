@@ -88,7 +88,10 @@ def log_out(request):
 
 
 def chat(request):
-    return render(request, 'accounts/chat.html')
+    return render(request, 'accounts/chat.html',{
+        'username': mark_safe(json.dumps(request.user.username)),
+
+    })
 
 @login_required
 def room(request, room_name):
@@ -236,45 +239,3 @@ def buying(request):
 
 def home(request):
     return render(request, 'accounts/base.html')
-
-# def home(request):
-#     query = request.GET.get("title")
-#     allMovies = None
-
-#     if query:
-#         allMovies = Movie.objects.filter(name__icontains=query)
-#     else:
-#         allMovies = Movie.objects.all()
-
-#     context = {
-#         "movies": allMovies,
-#     }
-
-#     return render(request,'main/index.html', context)
-
-
-# def login_user(request):
-#     if request.user.is_authenticated:
-#         return redirect("main:home")
-#     else:
-#         if request.method == "POST":
-#             username = request.POST['username']
-#             password = request.POST['password']
-
-#             user = authenticate(username=username, password=password)
-
-#             if user is not None:
-#                 if user.is_active:
-#                     login(request, user)
-#                     return redirect("main:home")
-
-#                 else:
-#                     return render(request, 'accounts/login.html', {"error": "your account has ben disabled."})
-
-#             else:
-#                 return render(request, 'accounts/login.html', {"error": "sorry chief, invalid username or password."})
-
-#         return render(request, 'accounts/login.html')
-
-
-
