@@ -45,9 +45,100 @@
       $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
   </head>
+
+
   <body>
     <div id="base" class="">
-        Profile
-    </div>
-</body>
-</html>
+  
+    <header class="header">
+        <div class="links"></div>
+        <a
+          class="btn--remix"
+          target="_top"
+          href=""
+        >
+          Edit Profile
+        </a>
+    </header>
+    <br />
+    {% load static %}
+         <img src="{% static '/flag.png' %}" width="20px"> Flag User
+    
+    <body>
+      <style>
+        p {
+           margin-left: 80px;
+        }
+        h1 {
+          margin-left: 80px;
+        }
+        </style>
+     
+      <!--set margins and positioning -->
+      <div class="wrapper">
+        <div class="content" role="main">
+          
+          <!-- this is the start of content -->
+
+      <div class="container">
+        <h1>Profile</h1>
+        <p>First Name: {{ form.first_name}}</p>
+        <p>Last Name: {{ form.last_name }}</p>
+        <p>Year: {{user.year}}</p>
+        <p>Email: {{ form.email }}</p>
+        <p>Major: {{ form.major }}</p>
+        <p>Courses: {{ form.completed_courses }}</p>
+        <p>Housing: {{ form.housing_location }}</p>
+    
+        {% if user.location %}
+          <p>Location: On-Campus</p>
+        {% else %}
+          <p>Location: {{user.location}}</p>
+        {% endif %}
+        <br />
+        <p>Seller Rating: {{user.seller_rating}}</p>
+        <p>Buyer Rating: {{user.buyer_rating}}</p>
+
+        {% if user.is_flagged %}
+        <div class="row">
+          <p style="color:white">ee</p>
+          <p>Flagged Status</p>
+          <p style="color:white">beep</p>
+          <p style="color:red">Flagged</p>
+        </div>
+        
+    
+        {% else %}
+        <div class="row">
+          <p style="color:white">ee</p>
+          <p>Flagged Status:</p>
+          <p style="color:white">e</p>
+          <p style="color:green">Not Flagged</p>
+        </div>
+    
+        {% endif %}
+        {% if user.is_banned %}
+        <div class="row">
+          <p style="color:white">ee</p>
+          <p>Flagged Status</p>
+          <p style="color:white">e</p>
+          <p style="color:red">Banned</p>
+        </div>
+    
+        {% else %}
+        <div class="row">
+          <p style="color:white">ee</p>
+          <p>Banned Status:</p>
+          <p style="color:white">e</p>
+          <p style="color:green">Not Banned</p>
+        </div>
+    
+        {% endif %}
+        <br>
+    
+      </div>
+
+    </p>
+  
+    </body>
+  </html>
