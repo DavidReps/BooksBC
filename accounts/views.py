@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, AddToCartForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -99,48 +99,50 @@ def room(request, room_name):
 
 @login_required
 def add_to_cart(request):
+
+    # create a form instance and populate it with data from the request:
+
     key_a = request.GET['book_isbn']
     book = Book.objects.get(isbn=key_a)
     current_user = request.user
-    addedBy = current_user.username
-    print("HEY HEY HEY")
-    print(book)
-    print(addedBy)
-    print("HEY HEY HEY")
+    user = current_user.username
+    
+    if request.method == 'POST':
+        form = AddToCartForm(request.POST, request.FILES or None, initial = {'book': book,'user': "none"})
+
+        
+        if form.is_valid():
+            current_user = request.user
+            user = current_user.username
+
+            obj = Cart.objects.create(
+                                        book = book, 
+                                        user = user,
+            )
+            obj.save()
+        else:
+            print("FORM IS NOT VALID")
+    else:
+        form = BookSellerForm()
+        print("REQUEST IS NOT POST")
 
 
+    # redirect to a new URL:
+    #this is just to confirm to the client that the form has been sumbited succesfully
     return HttpResponseRedirect(reverse('accounts:home'))
 
-# def sellerlisting(request):
-#     if request.method == 'POST':
-#         # create a form instance and populate it with data from the request:
-#         form = BookSellerForm(request.POST or None)
 
-#         # check whether it's valid:
-#         if form.is_valid():
-#             print("VALID")
-#             # photo = request.FILES['photo']
-#             # photo.save()
-
-#             user = form.save()
-
-
-#             # redirect to a new URL:
-#             #this is just to confirm to the client that the form has been submitted succesfully
-#             return HttpResponseRedirect(reverse('accounts:home'))
-#         else:
-#             print("INVALID")
-
-#     # if a GET (or any other method) we'll create a blank form
-#     else:
-
-#         form = BookSellerForm()
-
-#     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
 def cart(request):
+    allCarts = Cart.objects.all()
+    print(allCarts)
+    username = request.user.username
+    context = {
+        'carts' :allCarts,
+        'username': username,
+    }
 
-    return render(request, 'accounts/cart.html')
+    return render(request, 'accounts/usercart.html', context)
 
 def profile(request):
 
@@ -230,7 +232,6 @@ def buying(request):
                 'books' :allBooks,
             }
             return render(request, 'accounts/index.html', context)
-            return render(request, 'accounts/index.html',)
     else:
         return render(request, 'accounts/index.html')
 

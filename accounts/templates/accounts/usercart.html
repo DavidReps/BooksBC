@@ -1,0 +1,66 @@
+{% extends 'accounts/cart.html' %}
+
+
+{% block content %}
+
+<h1 class="text-center" style = "color: rgb(43, 43, 43);"> Welcome</h1>
+
+<br>
+
+
+
+<div class="container">
+  <div class="card" id ="backdrop">
+    <div class="row">
+      {% for cart in carts %}
+            {% if cart.user == username %}
+                <div class="col-md-4">
+                    <div class="card">
+                    <div class="card-body">
+                        <div class="text-center">
+                        {% load static %}
+                        <div style="position: absolute; right: 5%;">
+                            <a href="test">
+                            <img src="{% static '/flag.png' %}" width="20px">
+                            </a>
+                        </div>
+                        
+                        <div class="image-slot">
+
+                        </div>
+
+                        <img src="/media/{{ book.image }}" width="75%">
+                        <!-- IMAGESTUFF - loading -->
+                        
+                        <h3 class="text-center">
+                            {{cart.book.title}}
+                        </h3>
+                        {{cart.book.edition}} Edition
+                        </br>
+                        By: {{cart.book.author}}
+                        </br>
+                        Course: {{cart.book.course}}
+                        </br>
+                        Condition: {{cart.book.condition}}
+                        </br>
+                        ISBN-13: {{cart.book.isbn}}
+                        </br>
+                        <h5>
+                            ${{cart.book.price}}
+                        </h5>
+                        </div>
+                    </div>
+                        
+                    
+                    
+                    </div>
+                </div>
+            {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
