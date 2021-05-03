@@ -10,28 +10,33 @@ User = get_user_model()
 
 class ChatConsumer(WebsocketConsumer):
 
-    def last_10_messages(self):
+    def last_10_messages(self,data):
+
         messages = Message.objects.order_by('timestamp').all()[:10]
 
         for message in messages:
-            author = str(message.author)
 
-            content = {
-                'command':'new_message',
-                'message': '<' + author + '>: ' + message.content
-            }
-            self.send_chat_message(content)
+            if message.room == data['room']:
+                author = str(message.author)
+
+                content = {
+                    'command':'new_message',
+                    'message': '<' + author + '>: ' + message.content
+                }
+                self.send_chat_message(content)
+
 
 
     def new_message(self, data):
         author = data['from']
         if data['message'] == '/fetch':
-            return self.last_10_messages()
+            return self.last_10_messages(data)
 
         author_user = User.objects.filter(username=author)[0]
         message = Message.objects.create(
             author = author_user, 
-            content = data['message'])
+            content = data['message'],
+            room = data['room']),
 
         content = {
             'command':'new_message',

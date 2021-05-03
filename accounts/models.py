@@ -38,8 +38,13 @@ class Message(models.Model):
     author = models.ForeignKey(User, related_name='author_messages', on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add = True)
+    room = models.CharField(max_length=100, default='')
+    # sold = models.ForeignKey(Sold, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.author.username
+
+# class Sold(models.Model):
+
 
     

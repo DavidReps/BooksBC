@@ -141,32 +141,6 @@ def add_to_cart(request):
 
     return HttpResponseRedirect(reverse('accounts:home'))
 
-# def sellerlisting(request):
-#     if request.method == 'POST':
-#         # create a form instance and populate it with data from the request:
-#         form = BookSellerForm(request.POST or None)
-
-#         # check whether it's valid:
-#         if form.is_valid():
-#             print("VALID")
-#             # photo = request.FILES['photo']
-#             # photo.save()
-
-#             user = form.save()
-
-
-#             # redirect to a new URL:
-#             #this is just to confirm to the client that the form has been submitted succesfully
-#             return HttpResponseRedirect(reverse('accounts:home'))
-#         else:
-#             print("INVALID")
-
-#     # if a GET (or any other method) we'll create a blank form
-#     else:
-
-#         form = BookSellerForm()
-
-#     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
 def cart(request):
 
@@ -234,29 +208,42 @@ def buying(request):
             if filter_selection == "Title":
                 #filter by title and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(title__icontains=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+                }
                 return render(request, 'accounts/index.html', context)
             
             if filter_selection == "Author":
                 #filter by author and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(author__icontains=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+                }
                 return render(request, 'accounts/index.html', context)
             
             if filter_selection == "isbn":
                 #filter by ISBN and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(isbn__istartswith=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+                }
                 return render(request, 'accounts/index.html', context)
             
             if filter_selection == "Course":
                 #filter by Course and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(course__icontains=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+
+                    }
                 return render(request, 'accounts/index.html', context)
             
             else:
@@ -264,6 +251,8 @@ def buying(request):
                 allBooks = Book.objects.all()
                 context = {
                     'books' :allBooks,
+                    'username': request.user.username,
+
                 }
                 return render(request, 'accounts/index.html', context)
         else:
@@ -271,11 +260,15 @@ def buying(request):
             allBooks = Book.objects.all()
             context = {
                 'books' :allBooks,
+                'username': request.user.username,
             }
             return render(request, 'accounts/index.html', context)
-            return render(request, 'accounts/index.html',)
+            # return render(request, 'accounts/index.html',)
     else:
         return render(request, 'accounts/index.html')
 
+
+
 def home(request):
+
     return render(request, 'accounts/base.html')
