@@ -230,36 +230,47 @@ def buying(request):
         filter_selection = request.GET.get('filter')
         searchbutton= request.GET.get('submit')
         if query is not None:
-             #add search counter here:
-
             
             #filter options of Title, Author, ISBN, and Course
             if filter_selection == "Title":
                 #filter by title and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(title__icontains=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+                }
                 return render(request, 'accounts/index.html', context)
             
             if filter_selection == "Author":
                 #filter by author and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(author__icontains=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+                }
                 return render(request, 'accounts/index.html', context)
             
             if filter_selection == "isbn":
                 #filter by ISBN and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(isbn__istartswith=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+                }
                 return render(request, 'accounts/index.html', context)
             
             if filter_selection == "Course":
                 #filter by Course and order by price lowest to highest
                 allBooks =  Book.objects.filter(Q(course__icontains=query)).order_by('price')
-                context={'books' :allBooks,
-                     'sumbitbutton': searchbutton}
+                context={
+                    'books' :allBooks,
+                    'sumbitbutton': searchbutton,
+                    'username': request.user.username,
+
+                    }
                 return render(request, 'accounts/index.html', context)
             
             else:
@@ -267,6 +278,8 @@ def buying(request):
                 allBooks = Book.objects.all()
                 context = {
                     'books' :allBooks,
+                    'username': request.user.username,
+
                 }
                 return render(request, 'accounts/index.html', context)
         else:
@@ -274,9 +287,10 @@ def buying(request):
             allBooks = Book.objects.all()
             context = {
                 'books' :allBooks,
+                'username': request.user.username,
             }
             return render(request, 'accounts/index.html', context)
-            return render(request, 'accounts/index.html',)
+            # return render(request, 'accounts/index.html',)
     else:
         return render(request, 'accounts/index.html')
 

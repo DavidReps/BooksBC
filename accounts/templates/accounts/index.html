@@ -56,6 +56,22 @@
                 </button>
             </div>
           </a>
+                   
+          {% if username  < book.createdBy %}
+          <a  href="/chat/{{ username }}{{ book.createdBy }}" >
+          {% else %}
+          <a  href="/chat/{{ book.createdBy }}{{ username }}" >
+          {% endif %}
+
+          <div class="card-footer text-center">
+              <button class="btn btn-primary btn-sm"
+                      id="center" style="color:white">
+                  Message Sellar
+              </button>
+
+          </div>
+        </a>
+        
         </div>
       </div>
       {% endfor %}
