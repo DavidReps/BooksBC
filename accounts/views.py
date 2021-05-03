@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
 import json
 
 
@@ -229,7 +230,8 @@ def buying(request):
         filter_selection = request.GET.get('filter')
         searchbutton= request.GET.get('submit')
         if query is not None:
-            
+            #add search counter here:
+
             #filter options of Title, Author, ISBN, and Course
             if filter_selection == "Title":
                 #filter by title and order by price lowest to highest
@@ -277,5 +279,12 @@ def buying(request):
     else:
         return render(request, 'accounts/index.html')
 
+def adminpage(request):
+     user_count= Profile.objects.all().count()
+    #  total_searches = TotalSearches.objects.all()
+     context= {'user_count': user_count,
+                'total_searches': TotalSearches.objects.all()}
+     return render(request, 'accounts/adminindex.html', context)
+
 def home(request):
-    return render(request, 'accounts/base.html')
+     return render(request, 'accounts/base.html')

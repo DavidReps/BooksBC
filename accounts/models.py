@@ -42,4 +42,7 @@ class Message(models.Model):
     def __str__(self):
         return self.author.username
 
+class TotalSearches(models.Model):
+    total_searches = models.IntegerField(default=0)
+
     
