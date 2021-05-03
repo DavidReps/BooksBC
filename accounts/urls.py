@@ -21,6 +21,7 @@ urlpatterns = [
     path('chat/', views.chat, name="chat"),
     path('chat/<str:room_name>/', views.room, name='room'),
     path('add_to_cart/', views.add_to_cart, name="add_to_cart"),
+    path('adminpage/', views.adminpage, name="adminpage"),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #IMAGESTUFF - line above

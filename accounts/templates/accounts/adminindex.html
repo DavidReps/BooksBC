@@ -1,0 +1,64 @@
+{% extends 'accounts/adminpage.html' %}
+
+
+{% block content %}
+<h1 class="text-center" style = "color: rgb(43, 43, 43);"> Welcome Administrator</h1>
+
+<br>
+
+<h2 class="text-center" style = "color: rgb(43, 43, 43);"> Books Sold:</h2>
+<br>
+
+<!-- <div class="container">
+  <div class="card" id ="backdrop">
+    <div class="row">
+      
+      {% for book in books %}
+        {% if book.isSold == True %}
+            <div class="col-md-4">
+                <div class="card">
+                <div class="card-body">
+                    
+                    <h3 class="text-center">
+                        {{book.title}}
+                    </h3>
+                    {{book.edition}} Edition
+                    </br>
+                    By: {{book.author}}
+                    </br>
+                    Course: {{book.course}}
+                    </br>
+                    Condition: {{book.condition}}
+                    </br>
+                    ISBN-13: {{book.isbn}}
+                    </br>
+                    <h5>
+                        ${{book.price}}
+                    </h5>
+                </div>
+                </div>
+            </div>
+        {% else %}
+            <h3 class="text-center">
+                No books sold.
+            </h3>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div> -->
+
+<h2 class="text-center" style = "color: rgb(43, 43, 43);"> Number of Users:</h2>
+<h2 class="text-center" style = "color: rgb(43, 43, 43);"> {{ user_count }}</h2>
+<br>
+
+<h2 class="text-center" style = "color: rgb(43, 43, 43);"> Number of Searches:</h2>
+<h2 class="text-center" style = "color: rgb(43, 43, 43);"> {{ total_searches }}</h2>
+{% for num in total_searches %}
+    <h2 class="text-center" style = "color: rgb(43, 43, 43);"> {{ num.count }}</h2>
+{% endfor %}
+
+
+
+
+{% endblock %}
