@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1 class="text-center" style = "color: rgb(43, 43, 43);"> Welcome</h1>
+<h1 class="text-center" style = "color: rgb(43, 43, 43);">Cart</h1>
 
 <br>
 
@@ -11,26 +11,27 @@
 
 <div class="container">
   <div class="card" id ="backdrop">
-    <div class="row">
       {% for cart in carts %}
             {% if cart.user == username %}
-                <div class="col-md-4">
-                    <div class="card">
+            <div class="row" style="height: 250px;">
+                <div class="col-md-2">
+                    <img src="/media/{{ cart.book.image }}" height="250px" width="190px">
+                        <!-- IMAGESTUFF - loading -->
+                </div>
+
+                <div class="col-md-6" style="height: 250px;">
+                    
+                    <div class="card" style="height: 250px;">
                     <div class="card-body">
                         <div class="text-center">
                         {% load static %}
-                        <div style="position: absolute; right: 5%;">
-                            <a href="test">
-                            <img src="{% static '/flag.png' %}" width="20px">
-                            </a>
-                        </div>
+                        
                         
                         <div class="image-slot">
 
                         </div>
 
-                        <img src="/media/{{ book.image }}" width="75%">
-                        <!-- IMAGESTUFF - loading -->
+                        
                         
                         <h3 class="text-center">
                             {{cart.book.title}}
@@ -55,9 +56,20 @@
                     
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <p>This is where buttons will go!</p>
+                    <p>This is where buttons will go!</p>
+                    <p>This is where buttons will go!</p>
+                    <p>This is where buttons will go!</p>
+
+
+                </div>
+
+            </div>
+                
+                
             {% endif %}
       {% endfor %}
-    </div>
   </div>
 </div>
 
