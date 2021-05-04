@@ -47,4 +47,9 @@ class Message(models.Model):
 class TotalSearches(models.Model):
     total_searches = models.IntegerField(default=0)
 
+class Report(models.Model):
+    message = models.CharField(max_length = 100)
+    createdBy= models.CharField(max_length=40)
+    #need to link to book
+
     

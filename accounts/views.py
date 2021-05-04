@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -300,6 +300,35 @@ def adminpage(request):
      context= {'user_count': user_count,
                 'total_searches': TotalSearches.objects.all()}
      return render(request, 'accounts/adminindex.html', context)
+
+def reportlisting(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ReportForm(request.POST or None, initial = {'createdBy': "none"})
+
+        # check whether it's valid:
+        if form.is_valid():
+            #fields = ('message', 'createdBy')
+            message = form.cleaned_data.get('message')
+
+            current_user = request.user
+            createdBy = current_user.username
+
+            obj = Report.objects.create(
+                message = message, 
+                createdBy = createdBy,
+            )
+            obj.save()
+
+
+            # redirect to a new URL:
+            #this is just to confirm to the client that the form has been sumbited succesfully
+            return HttpResponseRedirect(reverse('accounts:buying'))
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ReportForm()
+
+    return render(request, 'accounts/reportlisting.html', {'form': form})
 
 
 def home(request):

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from .models import Book
+from .models import Book, Report
 
 
 class RegistrationForm(UserCreationForm):
@@ -19,6 +19,14 @@ class ClientCreationForm(forms.ModelForm):
         model = Profile
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'major', 'completed_courses', 'housing_location')
 
+class ReportForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = ('message', 'createdBy')
+
+    def __init__(self, *args, **kwargs): 
+        super(ReportForm, self).__init__(*args, **kwargs)                       
+        self.fields['createdBy'].disabled = True
 
 class BookSellerForm(forms.ModelForm):
     class Meta:
