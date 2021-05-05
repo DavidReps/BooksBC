@@ -22,10 +22,11 @@ class ClientCreationForm(forms.ModelForm):
 class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
-        fields = ('message', 'createdBy')
+        fields = ('book', 'message', 'createdBy')
 
     def __init__(self, *args, **kwargs): 
-        super(ReportForm, self).__init__(*args, **kwargs)                       
+        super(ReportForm, self).__init__(*args, **kwargs) 
+        self.fields['book'].disabled = True                      
         self.fields['createdBy'].disabled = True
 
 class AddToCartForm(forms.ModelForm):

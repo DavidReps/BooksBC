@@ -322,9 +322,12 @@ def adminpage(request):
      return render(request, 'accounts/adminindex.html', context)
 
 def reportlisting(request):
+    key_a = request.GET['book_isbn']
+    book = Book.objects.get(isbn=key_a)
+
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = ReportForm(request.POST or None, initial = {'createdBy': "none"})
+        form = ReportForm(request.POST or None, initial = {'createdBy': "none", 'book': book})
 
         # check whether it's valid:
         if form.is_valid():
@@ -337,6 +340,7 @@ def reportlisting(request):
             obj = Report.objects.create(
                 message = message, 
                 createdBy = createdBy,
+                book = book,
             )
             obj.save()
 
@@ -349,7 +353,6 @@ def reportlisting(request):
         form = ReportForm()
 
     return render(request, 'accounts/reportlisting.html', {'form': form})
-
 
 def home(request):
     return render(request, 'accounts/base.html')
