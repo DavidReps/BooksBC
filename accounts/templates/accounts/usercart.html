@@ -1,0 +1,76 @@
+{% extends 'accounts/cart.html' %}
+
+
+{% block content %}
+
+<h1 class="text-center" style = "color: rgb(43, 43, 43);">Cart</h1>
+
+<br>
+
+
+
+<div class="container">
+  <div class="card" id ="backdrop">
+      {% for cart in carts %}
+            {% if cart.user == username %}
+            <div class="row" style="height: 250px;">
+                <div class="col-md-2">
+                    <img src="/media/{{ cart.book.image }}" height="250px" width="190px">
+                        <!-- IMAGESTUFF - loading -->
+                </div>
+
+                <div class="col-md-6" style="height: 250px;">
+                    
+                    <div class="card" style="height: 250px;">
+                    <div class="card-body">
+                        <div class="text-center">
+                        {% load static %}
+                        
+                        
+                        <div class="image-slot">
+
+                        </div>
+
+                        
+                        
+                        <h3 class="text-center">
+                            {{cart.book.title}}
+                        </h3>
+                        {{cart.book.edition}} Edition
+                        </br>
+                        By: {{cart.book.author}}
+                        </br>
+                        Course: {{cart.book.course}}
+                        </br>
+                        Condition: {{cart.book.condition}}
+                        </br>
+                        ISBN-13: {{cart.book.isbn}}
+                        </br>
+                        <h5>
+                            ${{cart.book.price}}
+                        </h5>
+                        </div>
+                    </div>
+                        
+                    
+                    
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p>This is where buttons will go!</p>
+                    <p>This is where buttons will go!</p>
+                    <p>This is where buttons will go!</p>
+                    <p>This is where buttons will go!</p>
+                </div>
+
+            </div>
+                
+                
+            {% endif %}
+      {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}
+
