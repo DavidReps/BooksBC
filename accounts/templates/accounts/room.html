@@ -27,6 +27,8 @@
 
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
+        var messageId = roomName.concat(bookId);
+
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -67,7 +69,7 @@
                 'message': message,
                 'command' : 'new_message',
                 'from' : username,
-                'room' : roomName
+                'room' : messageId,
             }));
             messageInputDom.value = '';
         };

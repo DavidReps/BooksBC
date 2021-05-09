@@ -67,49 +67,33 @@ import random
 #     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
 
+
 def sold_book(request, bookId):
 
     if request.method == 'POST':
-        print('------------------------post--------------')
         form = SoldBookForm(request.POST or None)
 
         if form.is_valid():
-            print('----------------enter----------------------')
-
             count = form.cleaned_data.get('count')
 
-            obj = Sold.objects.create(bookId=bookId, count=count)
-            # count = request.POST.get('count')
+            sold, created = Sold.objects.get_or_create(bookId=bookId, count=count)
 
-            # # count = form.cleaned_data.get('count')
-
-            # sold, created = Sold.objects.get_or_create(bookId=bookId, count=count)
-
-            # print(created)
+            sold.save()
             
-            # if created is False:
-            #     print('---------------------entered false created-----------------')
-            #     #sold form already existed 
-            #     #uodate count
-            obj.save()
-            # return HttpResponseRedirect(reverse('accounts:home'))
+            #if already created we know one other user has claimed the book has sold
+            if created is False:
+                soldBook = Book.objects.get(bookId=bookId)
+                soldBook.delete()
+    
 
 
         else:
             print('-----------------------form  is not valid------------------------------')
         return HttpResponseRedirect(reverse('accounts:home'))
     else:
-        print('----------------entered here--------------------')
         form = SoldBookForm()
 
     return render(request, 'accounts/sold.html', {'form': form})
-
-
-    # sold, created = Sold.objects.get_or_create(bookId=bookId)
-
-
-
-    # return HttpResponseRedirect(reverse('accounts:home'))
 
 
 def register(request):
