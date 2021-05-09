@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from .models import Book, Report
+from .models import Book, Report, Sold
 
 
 class RegistrationForm(UserCreationForm):
@@ -36,3 +36,8 @@ class BookSellerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs): 
         super(BookSellerForm, self).__init__(*args, **kwargs)                       
         self.fields['createdBy'].disabled = True
+
+class SoldBookForm(forms.ModelForm):
+    class Meta:
+        model = Sold
+        fields = ('bookId', 'count')

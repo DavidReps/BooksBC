@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import uuid
+import shortuuid
 
 # Create your models here.
 class Profile(models.Model):
@@ -25,6 +27,11 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     isbn = models.IntegerField()
     createdBy = models.CharField(max_length=40)
+    bookId = models.CharField(
+         max_length=40,
+         primary_key = True,
+         default = shortuuid.uuid(),
+         editable = False)
 
 class Cart(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -51,5 +58,9 @@ class Report(models.Model):
     message = models.CharField(max_length = 100)
     createdBy= models.CharField(max_length=40)
     #need to link to book
+
+class Sold(models.Model):
+    bookId = models.CharField(max_length=40)
+    count = models.IntegerField(default=0)
 
     

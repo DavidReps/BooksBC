@@ -1,0 +1,35 @@
+{% extends 'accounts/buying.html' %}
+
+{% block content %}
+
+<!-- <form method="POST" enctype='multipart/form-data'>
+    {% csrf_token %}
+    <label class="form-label" for="formControl">Please enter 1 if the book has been sold</label>
+    <div class="input-group">
+        <div>
+            {{ form.count }}
+        </div>
+        
+    </div>
+    <br>
+   
+    <input type="submit" value="Submit">
+
+
+</form> -->
+
+
+
+<div class="container">
+    <div class="card">
+        <dic class="card-body">
+            <h3 class="text-center">Edit Review</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Sold" class="btn btn-danger">
+            </form>
+        </dic>
+    </div>
+</div>
+{% endblock %}

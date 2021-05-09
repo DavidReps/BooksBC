@@ -19,7 +19,10 @@ urlpatterns = [
     path('login/', views.log_in, name="login"),
     path('logout/', views.log_out, name="logout"),
     path('chat/', views.chat, name="chat"),
-    path('chat/<str:room_name>/', views.room, name='room'),
+    path('chat/<str:room_name>/<str:bookId>/', views.room, name='room'),
+    path('soldbook/<str:bookId>/', views.sold_book, name='sold'),
+    # path('chat/<str:room_name>/', views.room, name='room'),
+
     path('add_to_cart/', views.add_to_cart, name="add_to_cart"),
     path('adminpage/', views.adminpage, name="adminpage"),
     path('reportlisting/', views.reportlisting, name="reportlisting"),

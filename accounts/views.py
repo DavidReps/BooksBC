@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, SoldBookForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -11,10 +11,107 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
 import json
+import random
+
+# def sellerlisting(request):
+#     if request.method == 'POST':
+#         # create a form instance and populate it with data from the request:
+#         form = BookSellerForm(request.POST, request.FILES or None, initial = {'createdBy': "none"})
+
+#         # check whether it's valid:
+#         if form.is_valid():
+#             #fields = ('title', 'author', 'edition', 'condition', 'course', 'image', 'price', 'isbn')
+#             title = form.cleaned_data.get('title')
+#             author = form.cleaned_data.get('author')
+#             edition = form.cleaned_data.get('edition')
+#             condition = form.cleaned_data.get('condition')
+#             course = form.cleaned_data.get('course')
+#             image  = request.FILES['image']
+#             #IMAGESTUFF - line above
+#             price = form.cleaned_data.get('price')
+#             isbn = form.cleaned_data.get('isbn')
+            
+            
+
+#             current_user = request.user
+#             createdBy = current_user.username
+
+#             random_number = random.randint(0,16777215)
+            
+#             random_number2 = random.randint(0,random_number)
+
+#             bookId = random_number2
+
+#             obj = Book.objects.create(
+#                                  title = title, 
+#                                  author = author,
+#                                  edition = edition,
+#                                  condition = condition,
+#                                  course = course,
+#                                  image = image,
+#                                  price = price,
+#                                  isbn = isbn,
+#                                  createdBy = createdBy,
+#                                  bookId = bookId,
+#             )
+#             obj.save()
+
+
+#             # redirect to a new URL:
+#             #this is just to confirm to the client that the form has been sumbited succesfully
+#             return HttpResponseRedirect(reverse('accounts:home'))
+#     # if a GET (or any other method) we'll create a blank form
+#     else:
+#         form = BookSellerForm()
+
+#     return render(request, 'accounts/sellerlisting.html', {'form': form})
+
+
+def sold_book(request, bookId):
+
+    if request.method == 'POST':
+        print('------------------------post--------------')
+        form = SoldBookForm(request.POST or None)
+
+        if form.is_valid():
+            print('----------------enter----------------------')
+
+            count = form.cleaned_data.get('count')
+
+            obj = Sold.objects.create(bookId=bookId, count=count)
+            # count = request.POST.get('count')
+
+            # # count = form.cleaned_data.get('count')
+
+            # sold, created = Sold.objects.get_or_create(bookId=bookId, count=count)
+
+            # print(created)
+            
+            # if created is False:
+            #     print('---------------------entered false created-----------------')
+            #     #sold form already existed 
+            #     #uodate count
+            obj.save()
+            # return HttpResponseRedirect(reverse('accounts:home'))
+
+
+        else:
+            print('-----------------------form  is not valid------------------------------')
+        return HttpResponseRedirect(reverse('accounts:home'))
+    else:
+        print('----------------entered here--------------------')
+        form = SoldBookForm()
+
+    return render(request, 'accounts/sold.html', {'form': form})
+
+
+    # sold, created = Sold.objects.get_or_create(bookId=bookId)
 
 
 
-#edit
+    # return HttpResponseRedirect(reverse('accounts:home'))
+
+
 def register(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -122,10 +219,11 @@ def chat(request):
     })
 
 @login_required
-def room(request, room_name):
+def room(request, room_name, bookId):
     return render(request, 'accounts/room.html', {
         'room_name': room_name,
         'username': mark_safe(json.dumps(request.user.username)),
+        'bookId': bookId,
     })
 
 @login_required
@@ -142,32 +240,6 @@ def add_to_cart(request):
 
     return HttpResponseRedirect(reverse('accounts:home'))
 
-# def sellerlisting(request):
-#     if request.method == 'POST':
-#         # create a form instance and populate it with data from the request:
-#         form = BookSellerForm(request.POST or None)
-
-#         # check whether it's valid:
-#         if form.is_valid():
-#             print("VALID")
-#             # photo = request.FILES['photo']
-#             # photo.save()
-
-#             user = form.save()
-
-
-#             # redirect to a new URL:
-#             #this is just to confirm to the client that the form has been submitted succesfully
-#             return HttpResponseRedirect(reverse('accounts:home'))
-#         else:
-#             print("INVALID")
-
-#     # if a GET (or any other method) we'll create a blank form
-#     else:
-
-#         form = BookSellerForm()
-
-#     return render(request, 'accounts/sellerlisting.html', {'form': form})
 
 def cart(request):
 
@@ -176,6 +248,7 @@ def cart(request):
 def profile(request):
 
     return render(request, 'accounts/profile.html')
+
 
 def sellerlisting(request):
     if request.method == 'POST':
@@ -195,9 +268,16 @@ def sellerlisting(request):
             price = form.cleaned_data.get('price')
             isbn = form.cleaned_data.get('isbn')
             
+            
 
             current_user = request.user
             createdBy = current_user.username
+
+            random_number = random.randint(0,16777215)
+            
+            random_number2 = random.randint(0,random_number)
+
+            bookId = random_number2
 
             obj = Book.objects.create(
                                  title = title, 
@@ -209,6 +289,7 @@ def sellerlisting(request):
                                  price = price,
                                  isbn = isbn,
                                  createdBy = createdBy,
+                                 bookId = bookId,
             )
             obj.save()
 
