@@ -34,7 +34,7 @@ class Book(models.Model):
          editable = False)
 
 class Cart(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, unique=True, on_delete=models.CASCADE)
     user = models.CharField(max_length=40)
 
 

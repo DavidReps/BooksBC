@@ -48,14 +48,10 @@
               </h5>
             </div>
           </div>
-          <a  href="{% url 'accounts:add_to_cart' %}?book_isbn={{ book.isbn }}">
-            <div class="card-footer text-center">
-                <button class="btn btn-primary btn-sm"
-                        id="center" style="color:white">
-                    Add to Cart
-                </button>
-            </div>
-          </a>
+          <form action="{% url 'accounts:add_to_cart' %}?book_isbn={{ book.isbn }}"" method="POST">
+            {% csrf_token %}
+              <input type="submit" value="Add To Cart">
+          </form>
 
 
         <!-- {% if username  < book.createdBy %}

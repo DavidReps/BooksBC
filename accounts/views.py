@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, SoldBookForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, AddToCartForm, SoldBookForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -231,19 +231,37 @@ def add_to_cart(request):
     key_a = request.GET['book_isbn']
     book = Book.objects.get(isbn=key_a)
     current_user = request.user
-    addedBy = current_user.username
-    print("HEY HEY HEY")
-    print(book)
-    print(addedBy)
-    print("HEY HEY HEY")
+    user = current_user.username
 
+    if request.method == 'POST':
+        form = AddToCartForm(request.POST, request.FILES or None, initial = {'book': book,'user': "none"})
+        if form.is_valid():
+            current_user = request.user
+            user = current_user.username
 
-    return HttpResponseRedirect(reverse('accounts:home'))
+            obj = Cart.objects.create(
+                                        book = book, 
+                                        user = user,
+            )
+            obj.save()
+        else:
+            print("FORM IS NOT VALID")
+    else:
+        form = BookSellerForm()
+        print("REQUEST IS NOT POST")
+
+    return HttpResponseRedirect(reverse('accounts:cart'))
 
 
 def cart(request):
+    allCarts = Cart.objects.all()
+    username = request.user.username
+    context = {
+        'carts' :allCarts,
+        'username': username,
+    }
 
-    return render(request, 'accounts/cart.html')
+    return render(request, 'accounts/usercart.html', context)
 
 def profile(request):
 

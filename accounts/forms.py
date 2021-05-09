@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from .models import Book, Report, Sold
+from .models import Book, Report, Sold, Cart
 
 
 class RegistrationForm(UserCreationForm):
@@ -36,6 +36,16 @@ class BookSellerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs): 
         super(BookSellerForm, self).__init__(*args, **kwargs)                       
         self.fields['createdBy'].disabled = True
+
+
+class AddToCartForm(forms.ModelForm):
+    class Meta:
+        model = Cart
+        fields = ('book', 'user')
+    def __init__(self, *args, **kwargs): 
+        super(AddToCartForm, self).__init__(*args, **kwargs)                       
+        self.fields['book'].disabled = True
+        self.fields['user'].disabled = True
 
 class SoldBookForm(forms.ModelForm):
     class Meta:
