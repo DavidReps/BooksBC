@@ -12,6 +12,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import F
 import json
 import random
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 def sold_book(request, bookId):
@@ -364,6 +366,13 @@ def reportlisting(request):
 
             current_user = request.user
             createdBy = current_user.username
+
+            #send confirmation email to user that report was received by admin
+            subject = 'Report Received'
+            message = f'Hi {current_user.username[0:-7]}, we have received your report and are looking into it.'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [createdBy]
+            send_mail( subject, message, email_from, recipient_list )
 
             obj = Report.objects.create(
                 message = message, 
