@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from .models import Book, Report, Sold, Cart
+from .models import Book, Report, Sold, Cart, SearchCount
 
 
 class RegistrationForm(UserCreationForm):
@@ -53,3 +53,11 @@ class SoldBookForm(forms.ModelForm):
     class Meta:
         model = Sold
         fields = ('bookId', 'count')
+
+class AddToSearchForm(forms.ModelForm):
+    class Meta:
+        model = SearchCount
+        fields = ['count']
+    def __init__(self, *args, **kwargs): 
+        super(AddToSearchForm, self).__init__(*args, **kwargs)                       
+        self.fields['count'].disabled = True

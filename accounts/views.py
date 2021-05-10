@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, AddToCartForm, SoldBookForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, AddToCartForm, SoldBookForm, AddToSearchForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -259,6 +259,16 @@ def buying(request):
         filter_selection = request.GET.get('filter')
         searchbutton= request.GET.get('submit')
         if query is not None:
+            form = AddToSearchForm(request.POST, request.FILES or None, initial = {'count': 0})
+
+
+            if form.is_valid():
+                obj = SearchCount.objects.create(
+                                            count = 1,
+                )
+                obj.save()
+            else:
+                print("FORM IS NOT VALID")
             
             #filter options of Title, Author, ISBN, and Course
             if filter_selection == "Title":
@@ -324,11 +334,12 @@ def buying(request):
         return render(request, 'accounts/index.html')
 
 def adminpage(request):
-     user_count= Profile.objects.all().count()
-    #  total_searches = TotalSearches.objects.all()
-     context= {'user_count': user_count,
-                'total_searches': TotalSearches.objects.all()}
-     return render(request, 'accounts/adminindex.html', context)
+    user_count= Profile.objects.all().count()
+    total_searches = SearchCount.objects.all().count()
+
+    context= {'user_count': user_count,
+                'total_searches': total_searches}
+    return render(request, 'accounts/adminindex.html', context)
 
 def reportlisting(request):
     key_a = request.GET['book_id']
