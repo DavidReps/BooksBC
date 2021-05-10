@@ -25,6 +25,8 @@ urlpatterns = [
 
     path('add_to_cart/', views.add_to_cart, name="add_to_cart"),
     path('adminpage/', views.adminpage, name="adminpage"),
+    path('adminpage/<str:bookId>/', views.adminpage, name="adminpage1"),
+    path('adminpage/<str:userId>/', views.adminpage, name="adminpage2"),
     path('reportlisting/', views.reportlisting, name="reportlisting"),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
