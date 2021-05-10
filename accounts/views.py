@@ -193,9 +193,15 @@ def cart(request):
 
     return render(request, 'accounts/usercart.html', context)
 
-def profile(request):
+def profile(request, user):
+    currentUser = Profile.objects.get(email=user)
+    print(currentUser)
+    context={
+        'user': currentUser,
+    }
 
-    return render(request, 'accounts/profile.html')
+
+    return render(request, 'accounts/profile.html', context)
 
 
 def sellerlisting(request):

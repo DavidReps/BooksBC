@@ -105,7 +105,7 @@
                   </a>
                   <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="profiledrop">
                     {% if user.is_authenticated %}
-                      <a class="dropdown-item" href="./profile">Profile</a>
+                      <a class="dropdown-item" href="./profile/{{user.username}}">Profile</a>
                       <a class="dropdown-item" href="./chat">Messages</a>
                       <a class="dropdown-item" href="./logout">Sign Out</a>
                     {% else %}

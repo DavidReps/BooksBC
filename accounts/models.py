@@ -9,12 +9,16 @@ class Profile(models.Model):
     username = models.CharField(max_length=40)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    year = models.CharField(max_length=4,default="")
     email = models.CharField(max_length=30)
     password1 = models.CharField(max_length=30)
     password2 = models.CharField(max_length=30)
     major = models.CharField(max_length=30)
+    major2 = models.CharField(max_length=30,default="")
     completed_courses = models.CharField(max_length=200)
     housing_location = models.CharField(max_length=30)
+    buyer_rating = models.IntegerField(max_length=1,default=0)
+    seller_rating = models.IntegerField(max_length=1,default=0)
 
 class Book(models.Model):
 
