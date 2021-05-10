@@ -63,4 +63,5 @@ class Sold(models.Model):
     bookId = models.CharField(max_length=40)
     count = models.IntegerField(default=0)
 
-    
+class SearchCount(models.Model):
+    count = models.IntegerField(default=0)
