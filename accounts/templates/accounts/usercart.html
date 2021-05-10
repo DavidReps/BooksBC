@@ -57,10 +57,20 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <p>This is where buttons will go!</p>
-                    <p>This is where buttons will go!</p>
-                    <p>This is where buttons will go!</p>
-                    <p>This is where buttons will go!</p>
+                    {% if cart.user  < cart.book.createdBy %}
+                    <a  href="/chat/{{ cart.user }}_{{ cart.book.createdBy }}/{{cart.book.bookId}}" >
+                    {% else %}
+                    <a  href="/chat/{{ cart.book.createdBy }}_{{ cart.user }}/{{cart.book.bookId}}" >
+                    {% endif %}
+
+                        <div class="card-footer text-center">
+                            <button class="btn btn-primary btn-sm"
+                                    id="center" style="color:white">
+                                Message Seller
+                            </button>
+
+                        </div>
+                    </a>
 
 
                 </div>

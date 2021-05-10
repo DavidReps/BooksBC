@@ -13,60 +13,6 @@ from django.db.models import F
 import json
 import random
 
-# def sellerlisting(request):
-#     if request.method == 'POST':
-#         # create a form instance and populate it with data from the request:
-#         form = BookSellerForm(request.POST, request.FILES or None, initial = {'createdBy': "none"})
-
-#         # check whether it's valid:
-#         if form.is_valid():
-#             #fields = ('title', 'author', 'edition', 'condition', 'course', 'image', 'price', 'isbn')
-#             title = form.cleaned_data.get('title')
-#             author = form.cleaned_data.get('author')
-#             edition = form.cleaned_data.get('edition')
-#             condition = form.cleaned_data.get('condition')
-#             course = form.cleaned_data.get('course')
-#             image  = request.FILES['image']
-#             #IMAGESTUFF - line above
-#             price = form.cleaned_data.get('price')
-#             isbn = form.cleaned_data.get('isbn')
-            
-            
-
-#             current_user = request.user
-#             createdBy = current_user.username
-
-#             random_number = random.randint(0,16777215)
-            
-#             random_number2 = random.randint(0,random_number)
-
-#             bookId = random_number2
-
-#             obj = Book.objects.create(
-#                                  title = title, 
-#                                  author = author,
-#                                  edition = edition,
-#                                  condition = condition,
-#                                  course = course,
-#                                  image = image,
-#                                  price = price,
-#                                  isbn = isbn,
-#                                  createdBy = createdBy,
-#                                  bookId = bookId,
-#             )
-#             obj.save()
-
-
-#             # redirect to a new URL:
-#             #this is just to confirm to the client that the form has been sumbited succesfully
-#             return HttpResponseRedirect(reverse('accounts:home'))
-#     # if a GET (or any other method) we'll create a blank form
-#     else:
-#         form = BookSellerForm()
-
-#     return render(request, 'accounts/sellerlisting.html', {'form': form})
-
-
 
 def sold_book(request, bookId):
 
