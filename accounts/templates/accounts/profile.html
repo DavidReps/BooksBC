@@ -48,6 +48,7 @@
 
 
   <body>
+
     <div id="base" class="">
   
     <header class="header">
@@ -82,19 +83,15 @@
 
       <div class="container">
         <h1>Profile</h1>
-        <p>First Name: {{ form.first_name}}</p>
-        <p>Last Name: {{ form.last_name }}</p>
+        <p>Name:  {{ user.first_name}} {{ user.last_name }}</p>
         <p>Year: {{user.year}}</p>
-        <p>Email: {{ form.email }}</p>
-        <p>Major: {{ form.major }}</p>
-        <p>Courses: {{ form.completed_courses }}</p>
-        <p>Housing: {{ form.housing_location }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Major: {{ user.major }}</p>
+        <p>Second Major / Minor: {{ user.major2 }}</p>
+        <p>Courses: {{ user.completed_courses }}</p>
+        <p>Housing Location: {{ user.housing_location }}</p>
     
-        {% if user.location %}
-          <p>Location: On-Campus</p>
-        {% else %}
-          <p>Location: {{user.location}}</p>
-        {% endif %}
+        
         <br />
         <p>Seller Rating: {{user.seller_rating}}</p>
         <p>Buyer Rating: {{user.buyer_rating}}</p>

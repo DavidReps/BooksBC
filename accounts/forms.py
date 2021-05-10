@@ -17,7 +17,12 @@ class RegistrationForm(UserCreationForm):
 class ClientCreationForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'major', 'completed_courses', 'housing_location')
+        fields = ('first_name', 'last_name', 'year', 'email', 'password1', 'password2', 'major', 'major2', 'completed_courses', 'housing_location', 'buyer_rating', 'seller_rating')
+
+    def __init__(self, *args, **kwargs): 
+        super(ClientCreationForm, self).__init__(*args, **kwargs)                       
+        self.fields['buyer_rating'].disabled = True
+        self.fields['seller_rating'].disabled = True
 
 class ReportForm(forms.ModelForm):
     class Meta:
