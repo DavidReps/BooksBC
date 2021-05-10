@@ -28,11 +28,16 @@ def sold_book(request, bookId):
             
             #if already created we know one other user has claimed the book has sold
             if created is False:
-                soldBook = Book.objects.get(bookId=bookId)
+                if form.is_valid():
+                    obj = TotalBooksCount.objects.create(
+                                                count = 1,
+                    )
+                    obj.save()
+                else:
+                    print("FORM IS NOT VALID")
+
+                soldBook = Book.objects.get(bookId = bookId)
                 soldBook.delete()
-    
-
-
         else:
             print('-----------------------form  is not valid------------------------------')
         return HttpResponseRedirect(reverse('accounts:home'))
@@ -333,12 +338,37 @@ def buying(request):
     else:
         return render(request, 'accounts/index.html')
 
-def adminpage(request):
+def adminpage(request, bookId="null"):
     user_count= Profile.objects.all().count()
     total_searches = SearchCount.objects.all().count()
+    all_books = Book.objects.all()
+    all_reports = Report.objects.all()
+    all_sold = Sold.object.all()
+    isBookId = True
+
+
+    if (('@' in bookId) or 'admin' in bookId):
+        isBookId = False
+    
+    if(bookId != "null"):
+        if isBookId:
+            deleteBook = Book.objects.get(bookId = bookId)
+            deleteBook.delete()
+        else:
+            for book in all_books:
+                if book.createdBy == bookId:
+                    book.delete()
+
+            deleteUser = Profile.objects.get(email = bookId)
+            deleteUser.delete()
+
+
+
 
     context= {'user_count': user_count,
-                'total_searches': total_searches}
+                'total_searches': total_searches,
+                'reports': all_reports
+                }
     return render(request, 'accounts/adminindex.html', context)
 
 def reportlisting(request):

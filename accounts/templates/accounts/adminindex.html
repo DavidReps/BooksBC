@@ -2,11 +2,11 @@
 
 
 {% block content %}
-<h1 class="text-center" style = "color: rgb(43, 43, 43);"> Welcome Administrator</h1>
+<h1 class="text-center" style = "color: rgb(43, 43, 43);">Welcome Administrator</h1>
 
 <br>
 
-<h2 class="text-center" style = "color: rgb(43, 43, 43);"> Books Sold:</h2>
+<h2 class="text-center" style = "color: rgb(43, 43, 43);">Books Sold:</h2>
 <br>
 
 <!-- <div class="container">
@@ -55,6 +55,93 @@
 <h2 class="text-center" style = "color: rgb(43, 43, 43);"> Number of Searches:</h2>
 <h2 class="text-center" style = "color: rgb(43, 43, 43);"> {{ total_searches }}</h2>
 
+<h1 class="text-center" style = "color: rgb(43, 43, 43); margin-top: 100px;">Flagged Reports</h1>
+
+<br>
+
+
+
+<div class="container">
+  <div class="card" id ="backdrop">
+      {% for report in reports %}
+            <div class="row" style="height: 250px;">
+                <div class="col-md-2">
+                    <img src="/media/{{ report.book.image }}" height="250px" width="190px">
+                        <!-- IMAGESTUFF - loading -->
+                </div>
+
+                <div class="col-md-6" style="height: 250px;">
+                    
+                    <div class="card" style="height: 250px;">
+                    <div class="card-body">
+                        <div class="text-center">
+                        {% load static %}
+                        
+                        
+                        <div class="image-slot">
+
+                        </div>
+
+                        
+                        
+                        <h3 class="text-center">
+                            {{report.book.title}}
+                        </h3>
+                        {{report.book.edition}} Edition
+                        </br>
+                        By: {{report.book.author}}
+                        </br>
+                        Course: {{report.book.course}}
+                        </br>
+                        Condition: {{report.book.condition}}
+                        </br>
+                        ISBN-13: {{report.book.isbn}}
+                        </br>
+                        <h5>
+                            ${{report.book.price}}
+                        </h5>
+                        </div>
+                    </div>
+                    
+                        
+                    
+                    
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                      
+  
+                  <div class="card-footer text-center">
+                      <p>
+                        Message: {{report.message}}
+                      </p>
+                      
+                      <p>Report Submitted By: {{report.createdBy}}
+                      </p>
+
+                      <p>Person being Reported: {{report.seller}}</p>
+
+                      <a href="./{{ report.book.bookId }}" class="btn btn-primary btn-sm"
+                              id="center" style="background-color:red">
+                          Delete Post
+                      </a>
+                      <a href="./{{ report.seller }}" class="btn btn-primary btn-sm"
+                              id="center" style="background-color:red">
+                          Delete User
+                      </a>
+
+                  </div>
+
+
+            </div>
+
+            </div>
+                
+                
+      {% endfor %}
+  </div>
+</div>
 
 
 

@@ -66,3 +66,6 @@ class Sold(models.Model):
 
 class SearchCount(models.Model):
     count = models.IntegerField(default=0) 
+
+class TotalBooksCount(models.Model):
+    count = models.IntegerField(default=0)
