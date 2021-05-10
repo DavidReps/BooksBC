@@ -17,11 +17,11 @@
           <div class="card-body">
             <div class="text-center">
               {% load static %}
-              <div style="position: absolute; right: 5%;">
-                <a href="../reportlisting">
-                  <img src="{% static '/flag.png' %}" width="20px">
-                </a>
-              </div>
+              <form action="{% url 'accounts:reportlisting' %}?book_id={{ book.bookId }}" method="POST">
+                {% csrf_token %}
+                <input type="image" src="{% static '/flag.png' %}" width="20px" style="position: absolute; right: 5%;" alt="Submit Form" />
+              </form>
+
               
               <div class="image-slot">
 
