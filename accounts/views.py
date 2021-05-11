@@ -214,7 +214,9 @@ def cart(request):
 
     return render(request, 'accounts/usercart.html', context)
 
-def profile(request, user):
+def profile(request):
+    user = mark_safe(json.dumps(request.user.username))
+
     currentUser = Profile.objects.get(email=user)
     
     messages = Message.objects.filter(room__contains=currentUser[0:-7])
@@ -380,6 +382,7 @@ def buying(request):
 def adminpage(request, bookId="null"):
     user_count= Profile.objects.all().count()
     total_searches = SearchCount.objects.all().count()
+    total_sold = TotalBooksCount.objects.all().count()
     all_books = Book.objects.all()
     all_reports = Report.objects.all()
     isBookId = True
@@ -402,6 +405,7 @@ def adminpage(request, bookId="null"):
 
     context= {'user_count': user_count,
                 'total_searches': total_searches,
+                'total_sold': total_sold,
                 'reports': all_reports}
     return render(request, 'accounts/adminindex.html', context)
 
