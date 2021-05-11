@@ -216,7 +216,8 @@ def cart(request):
 
 def profile(request, user):
     currentUser = Profile.objects.get(email=user)
-    messages = Message.objects.get(headline__contains='Lennon')
+    
+    messages = Message.objects.filter(room__contains=currentUser[0:-7])
 
     buyerRate = currentUser.buyer_rating
     sellerRate = currentUser.seller_rating
@@ -233,6 +234,7 @@ def profile(request, user):
         'user': currentUser,
         'sellerAverage':averageSeller,
         'buyerAverage':averageBuyer,
+        'messages':messages,
     }
 
 
@@ -253,7 +255,6 @@ def sellerlisting(request):
             condition = form.cleaned_data.get('condition')
             course = form.cleaned_data.get('course')
             image  = request.FILES['image']
-            #IMAGESTUFF - line above
             price = form.cleaned_data.get('price')
             isbn = form.cleaned_data.get('isbn')
             
