@@ -19,6 +19,7 @@ class Profile(models.Model):
     housing_location = models.CharField(max_length=30)
     buyer_rating = models.IntegerField(max_length=1,default=0)
     seller_rating = models.IntegerField(max_length=1,default=0)
+    ratings = models.IntegerField(default=0)
 
 class Book(models.Model):
 
@@ -31,6 +32,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     isbn = models.IntegerField()
     createdBy = models.CharField(max_length=40)
+    sellerLink = models.CharField(max_length=40, default='')
     bookId = models.CharField(
          max_length=40,
          primary_key = True,
@@ -65,7 +67,7 @@ class Report(models.Model):
     seller = models.CharField(max_length=40)
 
 class Sold(models.Model):
-    bookId = models.CharField(max_length=40)
+    bookName = models.CharField(max_length=40)
     count = models.IntegerField(default=0)
 
 class SearchCount(models.Model):
@@ -73,3 +75,7 @@ class SearchCount(models.Model):
 
 class TotalBooksCount(models.Model):
     count = models.IntegerField(default=0)
+
+class Rating(models.Model):
+    message = models.CharField(max_length=20)
+    rating = models.IntegerField()

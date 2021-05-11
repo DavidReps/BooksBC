@@ -14,20 +14,17 @@ urlpatterns = [
     path('clientcreation/', views.clientcreation, name="clientcreation"),
     path('sellerlisting/', views.sellerlisting, name="sellerlisting"),
     path('cart/', views.cart, name="cart"),
-    path('profile/<str:user>', views.profile, name="profile"),
+    path('profile/', views.profile, name="profile"),
     path('buying/', views.buying, name="buying"),
     path('login/', views.log_in, name="login"),
     path('logout/', views.log_out, name="logout"),
     path('chat/', views.chat, name="chat"),
     path('chat/<str:room_name>/<str:bookId>/', views.room, name='room'),
     path('soldbook/<str:bookId>/', views.sold_book, name='sold'),
-    # path('chat/<str:room_name>/', views.room, name='room'),
-
     path('add_to_cart/', views.add_to_cart, name="add_to_cart"),
     path('adminpage/', views.adminpage, name="adminpage"),
-    path('adminpage/<str:bookId>/', views.adminpage, name="adminpage1"),
-    path('adminpage/<str:userId>/', views.adminpage, name="adminpage2"),
     path('reportlisting/', views.reportlisting, name="reportlisting"),
+    path('rating/', views.rating, name='rating'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #IMAGESTUFF - line above

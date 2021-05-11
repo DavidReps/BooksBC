@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, AddToCartForm, SoldBookForm, AddToSearchForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, AddToCartForm, SoldBookForm, AddToSearchForm, RatingForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -16,6 +16,17 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
+def rating(request):
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST or None)
+
+        if form.is_valid():
+            toBeRated = form.cleaned_data.get('message')
+            score = form.cleaned_data.get('rating')
+
+            print(score, toBeRated)
+
 def sold_book(request, bookId):
 
     if request.method == 'POST':
@@ -24,7 +35,7 @@ def sold_book(request, bookId):
         if form.is_valid():
             count = form.cleaned_data.get('count')
 
-            sold, created = Sold.objects.get_or_create(bookId=bookId, count=count)
+            sold, created = Sold.objects.get_or_create(bookName=bookId, count=count)
 
             sold.save()
             
@@ -45,7 +56,7 @@ def sold_book(request, bookId):
 
         else:
             print('-----------------------form  is not valid------------------------------')
-        return HttpResponseRedirect(reverse('accounts:home'))
+        return HttpResponseRedirect('/rating.html')
     else:
         form = SoldBookForm()
 
@@ -205,9 +216,22 @@ def cart(request):
 
 def profile(request, user):
     currentUser = Profile.objects.get(email=user)
-    print(currentUser)
+
+    buyerRate = currentUser.buyer_rating
+    sellerRate = currentUser.seller_rating
+    n = currentUser.ratings
+
+    if n ==0:
+        n = n+1
+    averageSeller = sellerRate//n
+    averageBuyer = buyerRate//n
+
+
+
     context={
         'user': currentUser,
+        'sellerAverage':averageSeller,
+        'buyerAverage':averageBuyer,
     }
 
 
@@ -236,7 +260,8 @@ def sellerlisting(request):
 
             current_user = request.user
             createdBy = current_user.username
-
+            
+            sellerLink = current_user.username[0:-7]
             random_number = random.randint(0,16777215)
             
             random_number2 = random.randint(0,random_number)
@@ -253,6 +278,7 @@ def sellerlisting(request):
                                  price = price,
                                  isbn = isbn,
                                  createdBy = createdBy,
+                                 sellerLink = sellerLink,
                                  bookId = bookId,
             )
             obj.save()
@@ -293,7 +319,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
                 }
                 return render(request, 'accounts/index.html', context)
             
@@ -303,7 +329,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
                 }
                 return render(request, 'accounts/index.html', context)
             
@@ -313,7 +339,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
                 }
                 return render(request, 'accounts/index.html', context)
             
@@ -323,7 +349,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
 
                     }
                 return render(request, 'accounts/index.html', context)
@@ -333,7 +359,7 @@ def buying(request):
                 allBooks = Book.objects.all()
                 context = {
                     'books' :allBooks,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
 
                 }
                 return render(request, 'accounts/index.html', context)
@@ -342,7 +368,7 @@ def buying(request):
             allBooks = Book.objects.all()
             context = {
                 'books' :allBooks,
-                'username': request.user.username,
+                'username': request.user.username[0:-7],
             }
             return render(request, 'accounts/index.html', context)
             # return render(request, 'accounts/index.html',)
