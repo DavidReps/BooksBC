@@ -1,10 +1,10 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, AddToCartForm, SoldBookForm, AddToSearchForm
+from .forms import RegistrationForm, ClientCreationForm, BookSellerForm, ReportForm, AddToCartForm, SoldBookForm, AddToSearchForm, RatingForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Q
+from django.db.models import Q, Avg
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import AuthenticationForm
@@ -12,6 +12,17 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import F
 import json
 import random
+
+def rating(request):
+    
+    if request.method == 'POST':
+        form = RatingForm(request.POST or None)
+
+        if form.is_valid():
+            toBeRated = form.cleaned_data.get('message')
+            score = form.cleaned_data.get('rating')
+
+            print(score, toBeRated)
 
 
 def sold_book(request, bookId):
@@ -22,7 +33,7 @@ def sold_book(request, bookId):
         if form.is_valid():
             count = form.cleaned_data.get('count')
 
-            sold, created = Sold.objects.get_or_create(bookId=bookId, count=count)
+            sold, created = Sold.objects.get_or_create(bookName=bookId, count=count)
 
             sold.save()
             
@@ -30,12 +41,9 @@ def sold_book(request, bookId):
             if created is False:
                 soldBook = Book.objects.get(bookId=bookId)
                 soldBook.delete()
-    
-
-
         else:
             print('-----------------------form  is not valid------------------------------')
-        return HttpResponseRedirect(reverse('accounts:home'))
+        return HttpResponseRedirect('/rating.html')
     else:
         form = SoldBookForm()
 
@@ -150,10 +158,14 @@ def chat(request):
 
 @login_required
 def room(request, room_name, bookId):
+    # creator = Book.objects.get(bookId=bookId).values('createdBy')
+    # creator = Book.objects.values_list('createdBy', flat=True).get(bookId=bookId)
+
     return render(request, 'accounts/room.html', {
         'room_name': room_name,
         'username': mark_safe(json.dumps(request.user.username)),
         'bookId': bookId,
+        # 'creator':creator,
     })
 
 @login_required
@@ -195,9 +207,22 @@ def cart(request):
 
 def profile(request, user):
     currentUser = Profile.objects.get(email=user)
-    print(currentUser)
+
+    buyerRate = currentUser.buyer_rating
+    sellerRate = currentUser.seller_rating
+    n = currentUser.ratings
+
+    if n ==0:
+        n = n+1
+    averageSeller = sellerRate//n
+    averageBuyer = buyerRate//n
+
+
+
     context={
         'user': currentUser,
+        'sellerAverage':averageSeller,
+        'buyerAverage':averageBuyer,
     }
 
 
@@ -225,7 +250,7 @@ def sellerlisting(request):
             
 
             current_user = request.user
-            createdBy = current_user.username
+            createdBy = current_user.username[0:-7]
 
             random_number = random.randint(0,16777215)
             
@@ -265,16 +290,6 @@ def buying(request):
         filter_selection = request.GET.get('filter')
         searchbutton= request.GET.get('submit')
         if query is not None:
-            form = AddToSearchForm(request.POST, request.FILES or None, initial = {'count': 0})
-
-
-            if form.is_valid():
-                obj = SearchCount.objects.create(
-                                            count = 1,
-                )
-                obj.save()
-            else:
-                print("FORM IS NOT VALID")
             
             #filter options of Title, Author, ISBN, and Course
             if filter_selection == "Title":
@@ -283,7 +298,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
                 }
                 return render(request, 'accounts/index.html', context)
             
@@ -293,7 +308,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
                 }
                 return render(request, 'accounts/index.html', context)
             
@@ -303,7 +318,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
                 }
                 return render(request, 'accounts/index.html', context)
             
@@ -313,7 +328,7 @@ def buying(request):
                 context={
                     'books' :allBooks,
                     'sumbitbutton': searchbutton,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
 
                     }
                 return render(request, 'accounts/index.html', context)
@@ -323,7 +338,7 @@ def buying(request):
                 allBooks = Book.objects.all()
                 context = {
                     'books' :allBooks,
-                    'username': request.user.username,
+                    'username': request.user.username[0:-7],
 
                 }
                 return render(request, 'accounts/index.html', context)
@@ -332,10 +347,9 @@ def buying(request):
             allBooks = Book.objects.all()
             context = {
                 'books' :allBooks,
-                'username': request.user.username,
+                'username': request.user.username[0:-7],
             }
             return render(request, 'accounts/index.html', context)
-            # return render(request, 'accounts/index.html',)
     else:
         return render(request, 'accounts/index.html')
 

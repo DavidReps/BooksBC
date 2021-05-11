@@ -56,21 +56,6 @@
           </form>
 
 
-        <!-- {% if username  < book.createdBy %}
-        <a  href="/chat/{{ username }}_{{ book.createdBy }}" >
-        {% else %}
-        <a  href="/chat/{{ book.createdBy }}_{{ username }}" >
-        {% endif %}
-
-        <div class="card-footer text-center">
-            <button class="btn btn-primary btn-sm"
-                    id="center" style="color:white">
-                Message Sellar
-            </button>
-
-        </div>
-      </a> -->
-
         {% if username  < book.createdBy %}
         <a  href="/chat/{{ username }}_{{ book.createdBy }}/{{book.bookId}}" >
         {% else %}
@@ -93,31 +78,6 @@
   </div>
 </div>
 
-<!-- <br>
-<div class="container">
-  <div class="card" id="backdrop">
-    <div class="card-body">
-      <div class="row"> -->
-        <!-- {% for book in movies %} -->
-        <!-- <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="text-center"> -->
-<!-- 
-              <img src="{{ movie.image }}" alt="" class="img-fluid" width="75%">
-              <h3 class="text-center">{{movie.name}}</h3>
-              <i class="text-center"> {{ movie.release_date }}</i>
-              </div>
-              <a href="{% url 'main:detail' movie.id %}">Continue reading</a>
-            </div>
-          </div>
-
-        </div> -->
-        <!-- {% endfor %} -->
-      <!-- </div>
-    </div>
-  </div>
-</div> -->
 
 {% endblock %}
 

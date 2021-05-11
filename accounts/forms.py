@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from .models import Book, Report, Sold, Cart, SearchCount
+from .models import Book, Report, Sold, Cart, SearchCount, Rating
 
 
 class RegistrationForm(UserCreationForm):
@@ -57,7 +57,12 @@ class AddToCartForm(forms.ModelForm):
 class SoldBookForm(forms.ModelForm):
     class Meta:
         model = Sold
-        fields = ('bookId', 'count')
+        fields = ('bookName', 'count')
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ('message', 'rating')
 
 class AddToSearchForm(forms.ModelForm):
     class Meta:

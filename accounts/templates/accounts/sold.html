@@ -2,28 +2,15 @@
 
 {% block content %}
 
-<!-- <form method="POST" enctype='multipart/form-data'>
-    {% csrf_token %}
-    <label class="form-label" for="formControl">Please enter 1 if the book has been sold</label>
-    <div class="input-group">
-        <div>
-            {{ form.count }}
-        </div>
-        
-    </div>
-    <br>
-   
-    <input type="submit" value="Submit">
-
-
-</form> -->
-
-
-
 <div class="container">
     <div class="card">
         <dic class="card-body">
-            <h3 class="text-center">Edit Review</h3>
+            <h3 class="text-center">Did this book get sold?</h3>
+            <br>
+        
+            <p>
+                Please enter the book name under bookName, and 1 under count
+            </p>
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ form }}

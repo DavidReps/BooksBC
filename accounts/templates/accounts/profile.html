@@ -92,8 +92,8 @@
         <p>Housing Location: {{ user.housing_location }}</p>
     
         <br />
-        <p>Seller Rating: {{user.seller_rating}}</p>
-        <p>Buyer Rating: {{user.buyer_rating}}</p>
+        <p>Seller Rating: {{ sellerAverage }}</p>
+        <p>Buyer Rating: {{ buyerAverage }}</p>
 
         {% if user.is_flagged %}
         <div class="row">
