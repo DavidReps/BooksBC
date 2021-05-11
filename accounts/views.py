@@ -214,12 +214,14 @@ def cart(request):
 
     return render(request, 'accounts/usercart.html', context)
 
-def profile(request):
-    user = mark_safe(json.dumps(request.user.username))
+def profile(request,user):
+    # user = mark_safe(json.dumps(request.user.username))
 
     currentUser = Profile.objects.get(email=user)
+
+    name = currentUser.username[0:-7]
     
-    messages = Message.objects.filter(room__contains=currentUser[0:-7])
+    messages = Message.objects.all().filter(room__icontains=name)
 
     buyerRate = currentUser.buyer_rating
     sellerRate = currentUser.seller_rating

@@ -58,9 +58,9 @@
                 </div>
                 <div class="col-md-4">
                     {% if cart.user  < cart.book.createdBy %}
-                    <a  href="/chat/{{ cart.user }}_{{ cart.book.createdBy }}/{{cart.book.bookId}}" >
+                    <a  href="/chat/{{ cart.user }}_{{ cart.book.sellerLink }}/{{cart.book.bookId}}" >
                     {% else %}
-                    <a  href="/chat/{{ cart.book.createdBy }}_{{ cart.user }}/{{cart.book.bookId}}" >
+                    <a  href="/chat/{{ cart.book.sellerLink }}_{{ cart.user }}/{{cart.book.bookId}}" >
                     {% endif %}
 
                         <div class="card-footer text-center">
