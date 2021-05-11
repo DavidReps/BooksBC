@@ -216,6 +216,7 @@ def cart(request):
 
 def profile(request, user):
     currentUser = Profile.objects.get(email=user)
+    messages = Message.objects.get(headline__contains='Lennon')
 
     buyerRate = currentUser.buyer_rating
     sellerRate = currentUser.seller_rating
