@@ -38,9 +38,10 @@
         
         {% for message in messages %}
         <p>
-          {{ message.room }}
+          <a href="/chat/{{message.room }}">chat here</a>
 
         </p>
+
 
         {% endfor %}
 
