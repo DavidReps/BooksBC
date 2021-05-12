@@ -189,10 +189,12 @@ def add_to_cart(request):
         if form.is_valid():
             current_user = request.user
             user = current_user.username
+            userSell = user[0:-7]
 
             obj = Cart.objects.create(
                                         book = book, 
                                         user = user,
+                                        # userSell = userSell,
             )
             obj.save()
         else:
@@ -207,9 +209,11 @@ def add_to_cart(request):
 def cart(request):
     allCarts = Cart.objects.all()
     username = request.user.username
+    userSell = username[0:-7]
     context = {
         'carts' :allCarts,
         'username': username,
+        'userSell':userSell,
     }
 
     return render(request, 'accounts/usercart.html', context)
@@ -220,9 +224,7 @@ def profile(request, user):
     currentUser = Profile.objects.get(email=user)
 
     name = user[0:-7]
-    print('----------------------',name,'------------------------------------')
 
-    print('--------------------',user,'-------------------------')
     
     # messages = Message.objects.all().filter(room__icontains=name)
     messages = Message.objects.filter(Q(room__icontains=name))
@@ -271,7 +273,7 @@ def sellerlisting(request):
             current_user = request.user
             createdBy = current_user.username
             
-            sellerLink = current_user.username[0:-7]
+            sellerLink = createdBy[0:-7]
             random_number = random.randint(0,16777215)
             
             random_number2 = random.randint(0,random_number)
