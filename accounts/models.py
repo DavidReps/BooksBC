@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 import uuid
 import shortuuid
+from .choices import *
 
 # Create your models here.
 class Profile(models.Model):
@@ -19,7 +20,10 @@ class Profile(models.Model):
     housing_location = models.CharField(max_length=30)
     buyer_rating = models.IntegerField(max_length=1,default=0)
     seller_rating = models.IntegerField(max_length=1,default=0)
-    ratings = models.IntegerField(default=0)
+    buyer_count = models.IntegerField(default=0)
+    seller_count = models.IntegerField(default=0)
+    average_buyer = models.FloatField(default=0.0)
+    average_seller = models.FloatField(default=0.0)
 
 class Book(models.Model):
 
@@ -77,5 +81,5 @@ class TotalBooksCount(models.Model):
     count = models.IntegerField(default=0)
 
 class Rating(models.Model):
-    message = models.CharField(max_length=20)
+    relevance = models.IntegerField(choices=RELEVANCE_CHOICES, default=1)
     rating = models.IntegerField()
