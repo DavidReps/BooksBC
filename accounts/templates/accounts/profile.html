@@ -1,4 +1,4 @@
-{% extends 'accounts/buying.html' %}
+{% extends 'accounts/chat.html' %}
 
 
 {% block content %}
@@ -35,10 +35,13 @@
         <p>Seller Rating: {{ sellerAverage }}</p>
         <p>Buyer Rating: {{ buyerAverage }}</p>
 
-        
+        <h4>
+          To view the rooms you are a mamber of click the links below:
+        </h4>
         {% for message in messages %}
+  
         <p>
-          <a href="/chat/{{message.room }}">chat here</a>
+          Room:<a href="/chat/{{message.room }}">{{message.room}}</a>
 
         </p>
 

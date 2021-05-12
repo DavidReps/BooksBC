@@ -98,18 +98,18 @@
               </li>
 
               <li class="nav-item text-white dropdown">
-                  <a class="nav-link text-white dropdown-toggle" href="../profile" id="profiledrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link text-white dropdown-toggle" href="/profile/{{user.username}}" id="profiledrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="profiledrop">
                     {% if user.is_authenticated %}
-                      <a class="dropdown-item" href="../profile">Profile</a>
-                      <a class="dropdown-item" href="../chat">Messages</a>
-                      <a class="dropdown-item" href="../logout">Sign Out</a>
+                      <a class="dropdown-item" href="/profile/{{user.username}}">Profile</a>
+                      <a class="dropdown-item" href="/profile/{{user.username}}">Messages</a>
+                      <a class="dropdown-item" href="/logout">Sign Out</a>
                     {% else %}
-                      <a class="dropdown-item" href="../login">Log In</a>
-                      <a class="dropdown-item" href="../login">Profile</a>
-                      <a class="dropdown-item" href="../login">Messages</a>
+                      <a class="dropdown-item" href="/login">Log In</a>
+                      <a class="dropdown-item" href="/login">Profile</a>
+                      <a class="dropdown-item" href="/login">Messages</a>
                     {% endif %}
                   </div>
 
@@ -118,10 +118,7 @@
             </ul>
           </div>
       </nav>
-      <!-- <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'accounts:home' %}">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="title">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form> -->
+
       <form class="text-center" method="GET" action="{% url 'accounts:buying' %}" value="{{request.GET.q}}">
         <div style="display: inline-block; ">
 
