@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 import uuid
-import shortuuid
 from .choices import *
 
 # Create your models here.
@@ -40,7 +39,7 @@ class Book(models.Model):
     bookId = models.CharField(
          max_length=40,
          primary_key = True,
-         default = shortuuid.uuid(),
+         default = 0,
          editable = False)
 
 class Cart(models.Model):
