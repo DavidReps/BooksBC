@@ -6,7 +6,6 @@
 
 <br>
 
-<h2 class="text-center" style = "color: rgb(43, 43, 43);"> Books Sold:</h2>
 <br>
 
 <!-- <div class="container">
@@ -140,9 +139,34 @@
             </div>
 
             </div>
+            
 
 
       {% endfor %}
+
+
+      <h1 class="text-center" style = "color: rgb(43, 43, 43); margin-top: 100px;">User Ratings</h1>
+        <div>
+            {% for user in all_users %}
+            <div>
+                <p>
+                    Username: {{user.email}}
+                </p>
+                <p>
+                    Seller Rating: {{user.average_seller}}
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    Buyer Rating: {{user.average_buyer}}
+                </p>
+            </div>
+
+            {% endfor %}
+                    
+        </div>
+
   </div>
 </div>
 

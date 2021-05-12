@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 from .models import Book, Report, Sold, Cart, SearchCount, TotalBooksCount, Rating
+from .choices import *
 
 
 class RegistrationForm(UserCreationForm):
@@ -17,12 +18,16 @@ class RegistrationForm(UserCreationForm):
 class ClientCreationForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('first_name', 'last_name', 'year', 'email', 'password1', 'password2', 'major', 'major2', 'completed_courses', 'housing_location', 'buyer_rating', 'seller_rating')
+        fields = ('first_name', 'last_name', 'year', 'email', 'password1', 'password2', 'major', 'major2', 'completed_courses', 'housing_location', 'buyer_rating', 'seller_rating', 'buyer_count', 'seller_count', 'average_buyer', 'average_seller')
 
     def __init__(self, *args, **kwargs): 
         super(ClientCreationForm, self).__init__(*args, **kwargs)                       
         self.fields['buyer_rating'].disabled = True
         self.fields['seller_rating'].disabled = True
+        self.fields['buyer_count'].disabled = True
+        self.fields['seller_count'].disabled = True
+        self.fields['average_buyer'].disabled = True
+        self.fields['average_seller'].disabled = True
         
 class ReportForm(forms.ModelForm):
     class Meta:
@@ -60,9 +65,11 @@ class SoldBookForm(forms.ModelForm):
         fields = ('bookName', 'count')
 
 class RatingForm(forms.ModelForm):
+    relevance = forms.ChoiceField(choices = RELEVANCE_CHOICES, required=True)
+
     class Meta:
         model = Rating
-        fields = ('message', 'rating')
+        fields = ['rating']
 
 class AddToSearchForm(forms.ModelForm):
     class Meta:

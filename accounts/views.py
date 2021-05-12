@@ -17,15 +17,41 @@ from django.core.mail import send_mail
 
 
 def rating(request):
+    user_to_rate = request.session.get('rating_user')
+    print("USER TO RATE???")
+    print(user_to_rate)
 
     if request.method == 'POST':
         form = RatingForm(request.POST or None)
+        rating_user = Profile.objects.get(email=user_to_rate)
+
 
         if form.is_valid():
-            toBeRated = form.cleaned_data.get('message')
+            relevence = form.cleaned_data.get('relevance')
             score = form.cleaned_data.get('rating')
 
-            print(score, toBeRated)
+
+            if relevence == 1:
+                print("rating user")
+                print(rating_user)
+                rating_user.buyer_rating += score
+                rating_user.buyer_count += 1
+                rating_user.average_buyer = rating_user.buyer_rating / rating_user.buyer_count
+                rating_user.save()
+            else:
+                rating_user.seller_rating += score
+                rating_user.seller_count += 1
+                rating_user.average_seller = rating_user.seller_rating / rating_user.seller_count
+                rating_user.save()
+            print("FORM IS VALID")
+            print(relevence, score)
+        else:
+            print("FORM IS NOT VALID")
+        
+    else:
+        print("REQUEST IS NOT POST")
+        form = RatingForm()
+    return render(request, 'accounts/rating.html', {'form': form})
 
 def sold_book(request, bookId):
 
@@ -56,7 +82,9 @@ def sold_book(request, bookId):
 
         else:
             print('-----------------------form  is not valid------------------------------')
-        return HttpResponseRedirect('/rating.html')
+        
+
+        return HttpResponseRedirect('/rating')
     else:
         form = SoldBookForm()
 
@@ -104,7 +132,7 @@ def register(request):
 def clientcreation(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = ClientCreationForm(request.POST or None)
+        form = ClientCreationForm(request.POST or None, initial = {'buyer_rating': 0,'seller_rating': 0, 'buyer_count':0, 'seller_count':0, 'average_buyer': 0.0, 'average_seller': 0.0})
 
         # check whether it's valid:
         if form.is_valid():
@@ -171,6 +199,15 @@ def chat(request):
 
 @login_required
 def room(request, room_name, bookId):
+    print("ROOMNAME IS PRINTED HERE:")
+    users = room_name.split("_")
+
+    for element in users:
+        username_this = element + "@bc.edu"
+        if username_this != request.user.username:
+            request.session['rating_user'] = username_this
+
+
     return render(request, 'accounts/room.html', {
         'room_name': room_name,
         'username': mark_safe(json.dumps(request.user.username)),
@@ -385,6 +422,7 @@ def adminpage(request, bookId="null"):
     user_count= Profile.objects.all().count()
     total_searches = SearchCount.objects.all().count()
     total_sold = TotalBooksCount.objects.all().count()
+    all_users = Profile.objects.all()
     all_books = Book.objects.all()
     all_reports = Report.objects.all()
     isBookId = True
@@ -407,6 +445,7 @@ def adminpage(request, bookId="null"):
 
     context= {'user_count': user_count,
                 'total_searches': total_searches,
+                'all_users': all_users,
                 'total_sold': total_sold,
                 'reports': all_reports}
     return render(request, 'accounts/adminindex.html', context)
