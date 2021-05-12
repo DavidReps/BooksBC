@@ -267,12 +267,16 @@ def profile(request, user):
 
     buyerRate = currentUser.buyer_rating
     sellerRate = currentUser.seller_rating
-    n = currentUser.ratings
+    buyer_n = currentUser.buyer_count
+    seller_n = currentUser.seller_count
 
-    if n ==0:
-        n = n+1
-    averageSeller = sellerRate/n
-    averageBuyer = buyerRate/n
+    if buyer_n ==0:
+        buyer_n = buyer_n+1
+    if seller_n ==0:
+        seller_n = seller_n+1
+        
+    averageSeller = sellerRate/seller_n
+    averageBuyer = buyerRate/buyer_n
 
 
 
