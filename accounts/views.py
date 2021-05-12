@@ -235,8 +235,8 @@ def profile(request, user):
 
     if n ==0:
         n = n+1
-    averageSeller = sellerRate//n
-    averageBuyer = buyerRate//n
+    averageSeller = sellerRate/n
+    averageBuyer = buyerRate/n
 
 
 
